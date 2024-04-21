@@ -1,4 +1,4 @@
-
+// 19 x 15 (tiles=16x16)
 export class matrixLevels
 {
     static array_levels =

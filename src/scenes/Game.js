@@ -8,6 +8,7 @@ import { Scene } from 'phaser';
 import { Textos } from '../components/textos.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
+import { Laberinto } from '../components/laberinto.js';
 import { BotonFullScreen, BotonEsc } from '../components/boton-nuevapartida.js';
 import { particulas } from '../functions/functions.js';
 
@@ -26,7 +27,9 @@ export class Game extends Scene
   {
     Settings.setGameOver(false);
 
-    this.set_pausaInicial(2800);
+    this.set_pausaInicial(4200);
+
+    this.laberinto = new Laberinto(this);
 
     /* this.botonfire = new BotonFire(this, {
       left: Math.floor(this.sys.game.config.width / 1.1),
@@ -49,6 +52,8 @@ export class Game extends Scene
     // this.set_cameras();
     // this.set_cameras_controles();
     this.set_cameras_marcadores();
+
+    this.laberinto.create();
 
     this.marcadorPtos.create();
     this.marcadorNivel.create();
@@ -182,26 +187,6 @@ export class Game extends Scene
 
     // Collide Jewels-Jewels
     this.physics.add.collider(this.jewels.get(), this.jewels.get(), colliderJewelsJewels, null, this);
-  }
-
-  rexVirtualJoystick()
-  {
-    this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-      x: 90,
-      y: this.sys.game.config.height - 80,
-      radius: 90,
-      base: this.add.circle(0, 0, 90, 0x888888, 0.4),
-      // base: this.add.image(0, 0, 'boton-fire-joystick').setScale(1),
-      thumb: this.add.circle(0, 0, 40, 0xcccccc, 0.7),
-      // thumb: this.add.image(0, 0, 'base-joystick').setScale(1)
-      dir: '4dir',
-      // forceMin: 16,
-      fixed: true,
-      enable: true
-    });
-    
-    console.log(this.joyStick);
-    this.joystickCursors = this.joyStick.createCursorKeys();
   }
 
   hideMobileControls()

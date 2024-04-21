@@ -60,6 +60,8 @@ export class Preloader extends Scene
 
         this.load.image('particula1', './img/particula1.png');
 
+        this.load.spritesheet('laberinto-1', './img/atlas-pacman.png', {frameWidth: 228, frameHeight: 248});
+
         // Pluggin VirtualJoystick
         // let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         // this.load.plugin('rexvirtualjoystickplugin', url, true);
