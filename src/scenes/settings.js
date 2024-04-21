@@ -62,7 +62,17 @@ export class Settings
         iniX: 9,
         iniY: 4,
         vel: 4,
-        invisible: false
+        velocity: 100,
+        invisible: false,
+        // [velX, velY, angle, body.touching...]
+        direccion: {
+            left: [-1, 0, 180, 'left'],
+            right: [1, 0, 0, 'right'],
+            up: [0, -1, 270, 'up'],
+            down: [0, 1, 90, 'down']
+        },
+        arrayAcumDir: [],
+        maxArrayAcumDir: 50
     };
 
     static pacmanPregame =

@@ -9,10 +9,12 @@ import { Textos } from '../components/textos.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
 import { Laberinto } from '../components/laberinto.js';
+import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { BotonFullScreen, BotonEsc } from '../components/boton-nuevapartida.js';
 import { particulas } from '../functions/functions.js';
 
 import {
+  colliderJugadorLaberinto,
   play_sonidos
 } from '../functions/functions.js';
 
@@ -30,6 +32,7 @@ export class Game extends Scene
     this.set_pausaInicial(4200);
 
     this.laberinto = new Laberinto(this);
+    this.jugador = new Jugador(this);
 
     /* this.botonfire = new BotonFire(this, {
       left: Math.floor(this.sys.game.config.width / 1.1),
@@ -55,6 +58,11 @@ export class Game extends Scene
 
     this.laberinto.create();
 
+    this.jugador.create(
+      Settings.pacman.iniX * Settings.tileXY.x,
+      Settings.pacman.iniY * Settings.tileXY.y
+    );
+
     this.marcadorPtos.create();
     this.marcadorNivel.create();
     this.marcadorHi.create();
@@ -66,7 +74,7 @@ export class Game extends Scene
     // this.cameras.main.startFollow(this.jugador.get());
     // this.cameras.main.followOffset.set(0, 0);
 
-    // this.set_colliders();
+    this.set_colliders();
   }
 
   update()
@@ -86,7 +94,7 @@ export class Game extends Scene
 
     if (!Settings.isPausaInicial() && !Settings.isGameOver())
     {
-      // this.jugador.update();
+      this.jugador.update();
     }
   }
 
@@ -170,23 +178,23 @@ export class Game extends Scene
     // Overlap Jugador-Fantasmas
     // this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), overlapJugadorFantasmas, exceptoNotVisible, this);
     
-    // Collide Jugador-Bloques
-    this.physics.add.collider(this.jugador.get(), this.bloques.get(), colliderJugadorBloques, null, this);
+    // Collide Jugador-Laberinto
+    this.physics.add.collider(this.jugador.get(), this.laberinto.get(), colliderJugadorLaberinto, null, this);
 
     // Collide Jugador-Jewels
-    this.physics.add.collider(this.jugador.get(), this.jewels.get(), colliderJugadorJewels, null, this);
+    // this.physics.add.collider(this.jugador.get(), this.jewels.get(), colliderJugadorJewels, null, this);
 
     // Collide Bloques-Bloques
-    this.physics.add.collider(this.bloques.get(), this.bloques.get(), colliderBloquesBloques, null, this);
+    // this.physics.add.collider(this.bloques.get(), this.bloques.get(), colliderBloquesBloques, null, this);
 
     // Collide Bloques-Jewels
-    this.physics.add.collider(this.bloques.get(), this.jewels.get(), colliderBloquesJewels, null, this);
+    // this.physics.add.collider(this.bloques.get(), this.jewels.get(), colliderBloquesJewels, null, this);
 
     // Collide Jewels-Bloques
-    this.physics.add.collider(this.jewels.get(), this.bloques.get(), colliderJewelsBloques, null, this);
+    // this.physics.add.collider(this.jewels.get(), this.bloques.get(), colliderJewelsBloques, null, this);
 
     // Collide Jewels-Jewels
-    this.physics.add.collider(this.jewels.get(), this.jewels.get(), colliderJewelsJewels, null, this);
+    // this.physics.add.collider(this.jewels.get(), this.jewels.get(), colliderJewelsJewels, null, this);
   }
 
   hideMobileControls()

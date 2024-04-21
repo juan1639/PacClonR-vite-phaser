@@ -1,18 +1,7 @@
 import { Settings } from '../scenes/settings.js';
-import { Laberinto } from "./laberinto.js";
 
 export class Jugador
 {
-    static VEL = 4;
-
-    // [velX, velY, addWidth, addHeight, angle]
-    static INFO_DIRECCION = {
-        left: [-1, 0, 0, 0, 180],
-        right: [1, 0, 1, 0, 0],
-        up: [0, -1, 0, 0, 270],
-        down: [0, 1, 0, 1, 90]
-    };
-
     constructor(scene)
     {
         this.relatedScene = scene;
@@ -20,18 +9,30 @@ export class Jugador
 
     create(x, y)
     {
+        const scale = Settings.getScaleGame();
+        const direcc = Settings.pacman.direccion;
+
         this.jugador = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
-        this.jugador.setAngle(0).setCircle(
+        /* this.jugador.setCircle(
             Math.floor(Settings.tileXY.y / 3),
             Math.floor(Settings.tileXY.x / 6),
             Math.floor(Settings.tileXY.y / 6)
-        );
+        ); */
 
-        this.intentoGiro = 'right';
-        this.direccion = this.intentoGiro;
+        this.jugador.setAngle(0);
+        this.jugador.setScale(((Settings.tileXY.y * scale) / 64) * 0.9); // 64x64px pacman ssheet
 
-        this.relatedScene.anims.remove('le-ri-up-do');
+        this.jugador.setData('intento-giro', 'right');
+        this.jugador.setData('direccion', this.jugador.getData('intento-giro'));
+        Settings.pacman.arrayAcumDir.unshift(this.jugador.getData('direccion'));
+
+        const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+        const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+        this.jugador.setVelocityX(velX);
+        this.jugador.setVelocityY(velY);
+
+        // this.relatedScene.anims.remove('le-ri-up-do');
 
         this.relatedScene.anims.create(
         {
@@ -58,16 +59,15 @@ export class Jugador
 
     update()
     {
-        if (!this.jugador.body.enable || Settings.pausa.comeFantasma || Settings.pausa.nivelSuperado) return;
+        if (!this.jugador.body.enable || Settings.isPausaComeFantasma() || Settings.isNivelSuperado()) return;
 
-        const direcc = Jugador.INFO_DIRECCION;
+        const direcc = Settings.pacman.direccion;
 
-        Object.keys(Jugador.INFO_DIRECCION).forEach(tecla =>
+        Object.keys(direcc).forEach(tecla =>
         {
-            
-            if (this.controles[tecla].isDown) this.intentoGiro = tecla;
+            if (this.controles[tecla].isDown) this.jugador.setData('intento-giro', tecla);
 
-            if (Settings.isBotonesYcruceta())
+            /* if (Settings.controlElegido.mobile)
             {
                 if (this.relatedScene.crucetaup.isDown)
                 {
@@ -85,10 +85,24 @@ export class Jugador
                 {
                     this.intentoGiro = 'right';
                 }
-            }
+            } */
         });
 
-        if (this.jugador.x % Settings.tileXY.x === 0 && this.jugador.y % Settings.tileXY.y === 0)
+        const intentoGiro = Settings.pacman.direccion[this.jugador.getData('intento-giro')][3];
+
+        if (!this.jugador.body.touching[intentoGiro])
+        {
+            this.jugador.setData('direccion', this.jugador.getData('intento-giro'));
+            Settings.pacman.arrayAcumDir.unshift(this.jugador.getData('direccion'));
+            this.arrayNoMore50();
+
+            const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+            const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+            this.jugador.setVelocityX(velX);
+            this.jugador.setVelocityY(velY);
+        }
+
+        /* if (this.jugador.x % Settings.tileXY.x === 0 && this.jugador.y % Settings.tileXY.y === 0)
         {
             const x = Math.floor(this.jugador.x / Settings.tileXY.x) + direcc[this.intentoGiro][0];
             const y = Math.floor(this.jugador.y / Settings.tileXY.y) + direcc[this.intentoGiro][1];
@@ -98,9 +112,9 @@ export class Jugador
                 this.direccion = this.intentoGiro;
                 this.jugador.setAngle(direcc[this.direccion][4]);
             }
-        }
+        } */
 
-        const ancho = direcc[this.direccion][2] * (Settings.tileXY.x - Jugador.VEL);
+        /* const ancho = direcc[this.direccion][2] * (Settings.tileXY.x - Jugador.VEL);
         const alto = direcc[this.direccion][3] * (Settings.tileXY.y - Jugador.VEL);
         const offsetX = direcc[this.direccion][0] * Jugador.VEL;
         const offsetY = direcc[this.direccion][1] * Jugador.VEL;
@@ -116,9 +130,23 @@ export class Jugador
             // Escapatorias
             if (this.jugador.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && direcc[this.direccion][0] > 0) this.jugador.x = -Settings.tileXY.x;
             if (this.jugador.x < -Settings.tileXY.x && direcc[this.direccion][0] < 0) this.jugador.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
-        }
+        } */
 
+        // console.log(Settings.pacman.arrayAcumDir);
+
+        console.log(this.jugador.getData('direccion'));
         // console.log(this.jugador.x, this.jugador.y);
+    }
+
+    arrayNoMore50()
+    {
+        const max = Settings.pacman.maxArrayAcumDir;
+
+        if (Settings.pacman.arrayAcumDir.length > max + 2)
+        {
+            const borrar = Settings.pacman.arrayAcumDir.length - max;
+            Settings.pacman.arrayAcumDir.splice(max, borrar);
+        }
     }
 
     get()

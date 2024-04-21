@@ -65,6 +65,8 @@ export class Preloader extends Scene
 
         this.load.image('tile-pacman-marron', './img/tile_pacmanMarron.png');
 
+        this.load.spritesheet('pacman', './img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
+
         // Pluggin VirtualJoystick
         // let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
         // this.load.plugin('rexvirtualjoystickplugin', url, true);

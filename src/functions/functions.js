@@ -2,41 +2,54 @@ import { Settings } from "../scenes/settings";
 import { matrixLevels } from "../scenes/matrixLevels";
 import { Textos } from "../components/textos";
 
-function colliderJugadorBloques(jugador, bloques)
+function colliderJugadorLaberinto(jugador, laberinto)
 {
+  console.log('colision');
+  console.log(
+    jugador.body.touching.up,
+    jugador.body.touching.right,
+    jugador.body.touching.down,
+    jugador.body.touching.left
+  );
+
+  if (jugador.body.velocity.x === 0 && jugador.body.velocity.y === 0)
+  {
+    const direcc = Settings.pacman.direccion;
+    const acumuladas = Settings.pacman.arrayAcumDir;
+
+    for (let i = 0; i < acumuladas.length; i ++)
+    {
+      const velX = direcc[acumuladas[i]][0] * Settings.pacman.velocity;
+      const velY = direcc[acumuladas[i]][1] * Settings.pacman.velocity;
+
+      if (!jugador.body.touching[acumuladas[i]])
+      {
+        jugador.setVelocityX(velX);
+        jugador.setVelocityY(velY);
+      }
+    }
+  }
+
   // console.log(jugador);
   // console.log(bloques);
 
   // if (!this.jugador.controles.space.isDown) console.log('colision:' + bloques.getData('id'));
 
-  const limits = Settings.bloques.limits;
-
-  if ((this.jugador.controles.space.isDown && Settings.controlElegido.teclado && !limits.includes(bloques.getData('id'))) ||
+  /* if ((this.jugador.controles.space.isDown && Settings.controlElegido.teclado && !limits.includes(bloques.getData('id'))) ||
     (Settings.controlElegido.mobile && !limits.includes(bloques.getData('id'))))
+  {} */
+
+  /* Object.values(Settings.jugador.teclas).forEach((tecla, index) =>
   {
-    let indexTecla = 99; // No direction-key pressed (default)
-    play_sonidos(this.sonido_ziuuu, false, 0.2);
-
-    Settings.mideTiempo[0] = this.time.now;
-
-    Object.values(Settings.jugador.teclas).forEach((tecla, index) =>
-    {
-      if (this.jugador.controles[tecla].isDown || this.joystickCursors[tecla].isDown) indexTecla = index; 
-    });
-
-    console.log('empujando:' + bloques.getData('id'), indexTecla);
-
-    const array_vel = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-
-    if (indexTecla >= 0 && indexTecla < 4)
-    {
-      bloques.setData('vel-x', array_vel[indexTecla][0] * Settings.bloques.velPxl);
-      bloques.setData('vel-y', array_vel[indexTecla][1] * Settings.bloques.velPxl);
-    }
-  }
+    if (this.jugador.controles[tecla].isDown || this.joystickCursors[tecla].isDown) indexTecla = index; 
+  }); */
   
-  this.jugador.get().setX(this.jugador.viejaX);
-  this.jugador.get().setY(this.jugador.viejaY);
+  // console.log('empujando:' + bloques.getData('id'), indexTecla);
+  
+  // const array_vel = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+
+  /* this.jugador.get().setX(this.jugador.viejaX);
+  this.jugador.get().setY(this.jugador.viejaY); */
 }
 
 function colliderJugadorJewels(jugador, jewels)
@@ -479,12 +492,7 @@ function play_sonidos(id, loop, volumen)
 }
 
 export {
-  colliderJugadorBloques,
-  colliderJugadorJewels,
-  colliderBloquesBloques,
-  colliderBloquesJewels,
-  colliderJewelsBloques,
-  colliderJewelsJewels,
+  colliderJugadorLaberinto,
   particulas,
   countDownBonus,
   play_sonidos
