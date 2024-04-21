@@ -10,27 +10,20 @@ export class Jugador
     create(x, y)
     {
         const scale = Settings.getScaleGame();
-        const direcc = Settings.pacman.direccion;
 
         this.jugador = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
-        /* this.jugador.setCircle(
-            Math.floor(Settings.tileXY.y / 3),
+        this.jugador.setCircle(
+            Math.floor((Settings.tileXY.y * scale) / 2),
             Math.floor(Settings.tileXY.x / 6),
             Math.floor(Settings.tileXY.y / 6)
-        ); */
+        );
 
         this.jugador.setAngle(0);
         this.jugador.setScale(((Settings.tileXY.y * scale) / 64) * 0.9); // 64x64px pacman ssheet
 
         this.jugador.setData('intento-giro', 'right');
-        this.jugador.setData('direccion', this.jugador.getData('intento-giro'));
-        Settings.pacman.arrayAcumDir.unshift(this.jugador.getData('direccion'));
-
-        const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
-        const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
-        this.jugador.setVelocityX(velX);
-        this.jugador.setVelocityY(velY);
+        this.establecer_velocidad(true);
 
         // this.relatedScene.anims.remove('le-ri-up-do');
 
@@ -92,50 +85,32 @@ export class Jugador
 
         if (!this.jugador.body.touching[intentoGiro])
         {
-            this.jugador.setData('direccion', this.jugador.getData('intento-giro'));
-            Settings.pacman.arrayAcumDir.unshift(this.jugador.getData('direccion'));
-            this.arrayNoMore50();
-
-            const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
-            const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
-            this.jugador.setVelocityX(velX);
-            this.jugador.setVelocityY(velY);
+            this.establecer_velocidad(false);
         }
 
-        /* if (this.jugador.x % Settings.tileXY.x === 0 && this.jugador.y % Settings.tileXY.y === 0)
-        {
-            const x = Math.floor(this.jugador.x / Settings.tileXY.x) + direcc[this.intentoGiro][0];
-            const y = Math.floor(this.jugador.y / Settings.tileXY.y) + direcc[this.intentoGiro][1];
-            
-            if (Laberinto.array_laberinto[y][x] !== 9)
-            {
-                this.direccion = this.intentoGiro;
-                this.jugador.setAngle(direcc[this.direccion][4]);
-            }
-        } */
+        // Escapatorias
+        //if (this.jugador.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && direcc[this.direccion][0] > 0) this.jugador.x = -Settings.tileXY.x;
+        //if (this.jugador.x < -Settings.tileXY.x && direcc[this.direccion][0] < 0) this.jugador.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
 
-        /* const ancho = direcc[this.direccion][2] * (Settings.tileXY.x - Jugador.VEL);
-        const alto = direcc[this.direccion][3] * (Settings.tileXY.y - Jugador.VEL);
-        const offsetX = direcc[this.direccion][0] * Jugador.VEL;
-        const offsetY = direcc[this.direccion][1] * Jugador.VEL;
-        
-        const x = Math.floor((this.jugador.x + offsetX + ancho) / Settings.tileXY.x);
-        const y = Math.floor((this.jugador.y + offsetY + alto) / Settings.tileXY.y);
-
-        if (Laberinto.array_laberinto[y][x] !== 9)
-        {
-            this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
-            this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
-
-            // Escapatorias
-            if (this.jugador.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && direcc[this.direccion][0] > 0) this.jugador.x = -Settings.tileXY.x;
-            if (this.jugador.x < -Settings.tileXY.x && direcc[this.direccion][0] < 0) this.jugador.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
-        } */
-
-        // console.log(Settings.pacman.arrayAcumDir);
-
-        console.log(this.jugador.getData('direccion'));
+        console.log(Settings.pacman.arrayAcumDir.length);
+        // console.log(this.jugador.getData('direccion'));
         // console.log(this.jugador.x, this.jugador.y);
+    }
+
+    establecer_velocidad(firstTime)
+    {
+        const direcc = Settings.pacman.direccion;
+
+        this.jugador.setData('direccion', this.jugador.getData('intento-giro'));
+        this.jugador.setAngle(direcc[this.jugador.getData('direccion')][2]);
+        Settings.pacman.arrayAcumDir.unshift(this.jugador.getData('direccion'));
+
+        if (!firstTime) this.arrayNoMore50();
+
+        const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+        const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+        this.jugador.setVelocityX(velX);
+        this.jugador.setVelocityY(velY);
     }
 
     arrayNoMore50()

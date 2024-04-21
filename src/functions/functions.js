@@ -24,6 +24,7 @@ function colliderJugadorLaberinto(jugador, laberinto)
 
       if (!jugador.body.touching[acumuladas[i]])
       {
+        jugador.setAngle(direcc[acumuladas[i]][2]);
         jugador.setVelocityX(velX);
         jugador.setVelocityY(velY);
       }
