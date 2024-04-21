@@ -18,7 +18,7 @@ export class PreGame extends Scene
         Settings.setGameOver(false);
         Settings.setNivelSuperado(false);
         Settings.controlElegido.mobile = false;
-        Settings.controlElegido.teclado = true;
+        Settings.controlElegido.keyboard = true;
 
         this.botoninicio = new BotonNuevaPartida(this, {
             left: Math.floor(this.sys.game.config.width / 2),
@@ -34,7 +34,7 @@ export class PreGame extends Scene
             left: Math.floor(this.sys.game.config.width / 15),
             top: Math.floor(this.sys.game.config.height / 6),
             addLeft: 0, orX: 0, orY: 0.5, frame: 1, scale: 1,
-            txtSize: 50, texto: ' Keyboard cursors ', id: 'teclado'
+            txtSize: 50, texto: ' Keyboard cursors ', id: 'keyboard'
         }));
 
         this.radiobuttons.push(new ElegirControles(this, {
@@ -63,7 +63,7 @@ export class PreGame extends Scene
 
     create ()
     {
-        this.add.image(0, 0, 'fondo').setDepth(Settings.depth.fondo).setOrigin(0, 0);
+        this.add.image(0, 0, 'fondo-pacman').setDepth(Settings.depth.fondo).setOrigin(0, 0);
         
         this.radiobuttons.forEach(radiobutton => radiobutton.create());
         this.radioFps.forEach(fps => fps.create());

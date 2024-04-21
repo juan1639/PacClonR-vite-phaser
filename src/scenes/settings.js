@@ -1,16 +1,30 @@
 
 export class Settings
 {
-    static screen = {
+    static controlElegido =
+    {
+        mobile: false,
+        keyboard: true
+    };
+
+    static screen =
+    {
         width: 800,
         height: 550,
         escBoundsX: 1.45,
         escBoundsY: 1.6
     };
 
-    static tileXY = {
+    static tileXY =
+    {
         x: 64,
         y: 64
+    };
+
+    static fps =
+    {
+        fps60: true,
+        allowUpdate: true
     };
 
     static puntos = 0;
@@ -19,43 +33,61 @@ export class Settings
     static vidas = 3;
     static gameOver = false;
 
-    static txtScore = ' Score: ';
+    static txtScore = 'Score: ';
 
-    static pausa = {
-        inicial: 4300,
-        pacmanDies: 3100,
-        comeFantasma: false,
-        comeFantasmaDuracion: 500,
-        nivelSuperado: false,
-        nivelSuperadoDuracion: 3000
+    static pausa =
+    {
+        inicial: {
+            activa: false,
+            duracion: 4300
+        },
+        pacmanDies: {
+            activa: false,
+            duracion: 3100
+        },
+        comeFantasma: {
+            activa: false,
+            duracion: 500,
+        },
+        nivelSuperado: {
+            activa: false,
+            duracion: 3000
+
+        }
     };
 
-    static pacman = {
+    static pacman =
+    {
         iniX: 9,
         iniY: 4,
-        vel: 4
+        vel: 4,
+        invisible: false
     };
 
-    static pacmanPregame = {
+    static pacmanPregame =
+    {
         iniX: -4,
         iniY: 2,
         vel: 4
     };
 
-    static fantasmasIniXY = {
+    static fantasmasIniXY =
+    {
         azul: [4, 8],
         rojo: [8, 8],
         verde: [12, 8],
         pink: [16, 8],
     };
 
-    static fantasmasScary = {
+    static fantasmasScary =
+    {
         activo: false,
         duracion: 9000,
         intermitente: false
     };
 
-    static fantasmasBonusInc = {
+    static fantasmasBonusInc =
+    {
         puntos: [200, 400, 800, 1600],
         color: ['#f91', '#f61', '#f41', '#f21'],
         contador: 0,
@@ -68,17 +100,16 @@ export class Settings
         300, 300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000
     ];
 
-    static invisible = false;
-    static botonesYcruceta = false;
-
-    static coorCruceta = {
+    static coorCruceta =
+    {
         xx: 60,
         yy: 1400,
         sizeX: 2.5,
         sizeY: 2.1
     };
 
-    static cameraControles = {
+    static cameraControles =
+    {
         x: 0,
         y: 300,
         ancho: 800,
@@ -87,7 +118,8 @@ export class Settings
         scrollY: 1250
     };
 
-    static cameraScores = {
+    static cameraScores =
+    {
         x: 0,
         y: 0,
         ancho: 800,
@@ -96,14 +128,18 @@ export class Settings
         scrollY: -90
     };
 
-    static depth = {
+    static depth =
+    {
         fondo: 0,
-        puntitos: 10,
-        pared: 20,
-        item: 30,
-        jugador: 40,
-        fantasmas: 50,
-        textos: 60
+        puntitos: 100,
+        pared: 200,
+        item: 300,
+        jugador: 400,
+        fantasmas: 500,
+        efectos: 600,
+        marcadores: 700,
+        controles: 800,
+        textos: 900
     };
     
     static audio =
@@ -113,6 +149,41 @@ export class Settings
     };
 
     // ------- Getters ---------
+    static isFps60()
+    {
+        return Settings.fps.fps60;
+    }
+    
+    static isAllowUpdate()
+    {
+        return Settings.fps.allowUpdate;
+    }
+
+    static isGameOver()
+    {
+        return Settings.gameOver;
+    }
+
+    static isPausaInicial()
+    {
+        return Settings.pausa.inicial;
+    }
+
+    static isPacmanDies()
+    {
+        return Settings.pausa.pacmanDies;
+    }
+
+    static isPausaComeFantasma()
+    {
+        return Settings.pausa.comeFantasma;
+    }
+
+    static isNivelSuperado()
+    {
+        return Settings.pausa.nivelSuperado;
+    }
+
     static getPuntos()
     {
         return Settings.puntos;
@@ -140,7 +211,7 @@ export class Settings
 
     static getInvisible()
     {
-        return Settings.invisible;
+        return Settings.pacman.invisible;
     }
 
     static isFantasmasScary()
@@ -163,16 +234,6 @@ export class Settings
         return Settings.fantasmasBonusInc;
     }
 
-    static isGameOver()
-    {
-        return Settings.gameOver;
-    }
-
-    static isBotonesYcruceta()
-    {
-        return Settings.botonesYcruceta;
-    }
-
     static getCerezasIniXY()
     {
         return Settings.cerezasIniXY;
@@ -181,21 +242,6 @@ export class Settings
     static getBonusCerezas()
     {
         return Settings.bonusCerezas;
-    }
-
-    static getCoorCruceta()
-    {
-        return Settings.coorCruceta;
-    }
-
-    static getScreen()
-    {
-        return Settings.screen;
-    }
-
-    static getDepth()
-    {
-        return Settings.depth;
     }
 
     static getCameraControles()
@@ -209,6 +255,45 @@ export class Settings
     }
 
     // ------- Setters ---------
+    static setFps60(bool)
+    {
+        Settings.fps.fps60 = bool;
+    }
+    static setAllowUpdate(bool)
+    {
+        Settings.fps.allowUpdate = bool;
+    }
+    
+    static setNivelSuperado(bool)
+    {
+        Settings.pausa.nivelSuperado = bool;
+    }
+
+    static setGameOver(bool)
+    {
+        Settings.gameOver = bool;
+    }
+
+    static setPausaInicial(bool)
+    {
+        Settings.pausa.inicial = bool;
+    }
+
+    static isPacmanDies(bool)
+    {
+        Settings.pausa.pacmanDies = bool;
+    }
+
+    static isPausaComeFantasma(bool)
+    {
+        Settings.pausa.comeFantasma = bool;
+    }
+
+    static isNivelSuperado(bool)
+    {
+        Settings.pausa.nivelSuperado = bool;
+    }
+
     static setPuntos(ptos)
     {
         Settings.puntos = ptos;
@@ -247,34 +332,5 @@ export class Settings
     static setFantasmasBonusInc(valor)
     {
         Settings.fantasmasBonusInc.contador = valor;
-    }
-
-    static setGameOver(bool)
-    {
-        Settings.gameOver = bool;
-    }
-
-    static setBotonesYcruceta(bool)
-    {
-        Settings.botonesYcruceta = bool;
-    }
-
-    static setScreen(w, h, bx, by)
-    {
-        Settings.screen.width = w;
-        Settings.screen.height = h;
-        Settings.screen.escBoundsX = bx;
-        Settings.screen.escBoundsY = by;
-    }
-
-    static setDepth(fondo, puntitos, pared, item, jugador, fantasmas, textos)
-    {
-        Settings.depth.fondo = fondo;
-        Settings.depth.puntitos = puntitos;
-        Settings.depth.pared = pared;
-        Settings.depth.item = item;
-        Settings.depth.jugador = jugador;
-        Settings.depth.fantasmas = fantasmas;
-        Settings.depth.textos = textos;
     }
 }

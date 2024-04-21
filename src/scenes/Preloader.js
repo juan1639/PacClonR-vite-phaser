@@ -51,7 +51,7 @@ export class Preloader extends Scene
     {
         this.load.setPath('assets');
 
-        this.load.image('fondo', './img/bg.png');
+        this.load.image('fondo-pacman', './img/fondo_pacmanPh.png');
 
         this.load.image('boton-nueva-partida', './img/ui-newgame.png');
         this.load.image('boton-fire-joystick', './img/ui-1.png');
@@ -66,7 +66,6 @@ export class Preloader extends Scene
 
         //  Archivos de audio
         this.load.audio('gameover-retro', './audio/gameoveretro.ogg');
-        // this.load.audio('get-ready', './audio/get-ready.mp3');
         this.load.audio('you-win', './audio/you-win.mp3');
         this.load.audio('key', './audio/key.wav');
         this.load.audio('numkey', './audio/numkey.wav');

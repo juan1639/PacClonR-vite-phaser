@@ -43,9 +43,9 @@ export class Game extends Scene
   create()
   {
     // 1.48 1.68 ajustar size fondo al scroll
-    this.add.image(0, 0, 'fondo').setScale(1.48, 1.68).setDepth(Settings.depth.fondo).setOrigin(0, 0);
+    this.add.image(0, 0, 'fondo-pacman').setScale(1.48, 1.68).setDepth(Settings.depth.fondo).setOrigin(0, 0);
 
-    // this.set_sonidos();
+    this.set_sonidos();
     // this.set_cameras();
     // this.set_cameras_controles();
     // this.set_cameras_marcadores();
@@ -79,65 +79,10 @@ export class Game extends Scene
       }
     }
 
-    if (!Settings.pausas.inicial && !Settings.isGameOver() && !Settings.isBonus3JewelsRunning())
+    if (!Settings.isPausaInicial() && !Settings.isGameOver())
     {
       // this.jugador.update();
     }
-
-    if (Settings.isBonus3JewelsDone() && !Settings.isBonus3JewelsRunning() && !Settings.isNivelSuperado())
-    {
-      // this.timeToBonus3Jewels();
-    }
-  }
-
-  timeToBonus3Jewels()
-  {
-    Settings.setBonus3JewelsRunning(true);
-    this.texto_enhorabuena();
-    Settings.audio.musicaFondo.volume = 0;
-    play_sonidos(this.sonido_youWin, false, 0.9);
-
-    this.timeline3Jewels = this.add.timeline([
-      {
-        at: 1500,
-        run: () =>
-        {
-          particulas(
-            this.jewels.get().getChildren()[0].x,
-            this.jewels.get().getChildren()[0].y,
-            'particula1',
-            {min: 220, max: 420},
-            {min: 2500, max: 3000},
-            {start: 0.1, end: 0.6},
-            0xffcc11,
-            null, false, this
-          );
-
-          countDownBonus(this);
-          play_sonidos(this.sonido_congrats, false, 0.9);
-        }
-      },
-      {
-        at: Settings.pausas.bonus3Jewels.duracion,
-        run: () =>
-        {
-          Settings.setBonus3JewelsRunning(false),
-          Settings.setNivelSuperado(true);
-          this.jewels.get().children.iterate(gem => gem.play('jewels-anim', true));
-          
-          console.log(
-            'Done:',
-            Settings.isBonus3JewelsDone(),
-            'Running:',
-            Settings.isBonus3JewelsRunning(),
-            'LevelUp:',
-            Settings.isNivelSuperado()
-          );
-        }
-      }
-    ]);
-
-    this.timeline3Jewels.play();
   }
 
   set_pausaInicial(tiempo)
@@ -147,9 +92,9 @@ export class Game extends Scene
     this.txtpreparado = new Textos(this, {
       x: Math.floor(this.sys.game.config.width / 2),
       y: 0,
-      txt: `Level ${Settings.getNivel()} Ready!`,
+      txt: 'Ready!',
       size: 78, color: '#ffa', style: 'bold',
-      stroke: '#af1', sizeStroke: 16,
+      stroke: '#fa1', sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
       bool1: false, bool2: true, origin: [0.5, 0.5],
       elastic: Math.floor(this.sys.game.config.height / 2), dura: 2800
@@ -159,13 +104,6 @@ export class Game extends Scene
     this.txtpreparado.get().setDepth(Settings.depth.textos);
     
     const timeline = this.add.timeline([
-      {
-        at: tiempo - 300,
-        run: () =>
-        {
-          play_sonidos(Settings.audio.musicaFondo, true, 0.6);
-        }
-      },
       {
         at: tiempo,
         run: () =>
@@ -188,7 +126,7 @@ export class Game extends Scene
       y: Math.floor(this.sys.game.config.height / 2),
       txt: ' Go! ',
       size: 90, color: '#ffa', style: 'bold',
-      stroke: '#4f1', sizeStroke: 16,
+      stroke: '#cb1', sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
       bool1: false, bool2: true, origin: [0.5, 0.5],
       elastic: false, dura: 0
@@ -272,7 +210,6 @@ export class Game extends Scene
     
     if (!Settings.controlElegido.mobile)
     {
-      this.joyStick.setVisible(false);
       // this.botonfire.get().setVisible(false);
       // this.botonfire.txt.get().setVisible(false);
     }
@@ -320,7 +257,7 @@ export class Game extends Scene
 
     const marcadoresPosY = -99;
 
-    this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.4), top: marcadoresPosY + 9});
+    // this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.4), top: marcadoresPosY + 9});
 
     this.marcadorPtos = new Marcador(this, {
       x: 10, y: marcadoresPosY, size: 40, txt: Settings.getTxtScore(), color: '#fff', strokeColor: '#af1', id: 0
@@ -347,15 +284,11 @@ export class Game extends Scene
 
   set_sonidos()
   {
-    this.sonido_getReady = this.sound.add('get-ready');
-    play_sonidos(this.sonido_getReady, false, 0.9);
+    this.sonido_preparado = this.sound.add('pacman-inicio-nivel');
+    play_sonidos(this.sonido_preparado, false, 0.7);
 
-    this.sonido_ziuuu = this.sound.add('ziuuu1');
-    this.sonido_crash = this.sound.add('crash');
-    this.sonido_congrats = this.sound.add('congrats-voice');
     this.sonido_youWin = this.sound.add('you-win');
     this.sonido_key = this.sound.add('key');
     this.sonido_numkey = this.sound.add('numkey');
-    Settings.audio.musicaFondo = this.sound.add('musica-fondo');
   }
 }

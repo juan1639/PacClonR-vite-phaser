@@ -22,7 +22,7 @@ export class ElegirControles
       y: top,
       txt: texto,
       size: txtSize, color: '#ffa', style: 'bold',
-      stroke: '#1fb', sizeStroke: 16,
+      stroke: '#fa1', sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
       bool1: false, bool2: true, origin: [orX, orY],
       elastic: false, dura: 0
@@ -74,8 +74,10 @@ export class ElegirControles
         });
   
         Settings.controlElegido[this.radiobutton.getData('id')] = true;
-        console.log(Settings.controlElegido.mobile, Settings.controlElegido.teclado);
+        console.log(Settings.controlElegido.mobile, Settings.controlElegido.keyboard);
       }
+
+      console.log(Settings.isFps60());
     });
   }
 
