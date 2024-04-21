@@ -10,43 +10,52 @@ export class Laberinto
 
     create()
     {
-        this.laberinto = this.relatedScene.physics.add.sprite(0, 0, 'laberinto-1', 1);
-        this.laberinto.setOrigin(0, 0).setScale(3, 3);
-
-        /* const nivel = Settings.getNivel();
+        const nivel = Settings.getNivel();
 
         this.tile = this.relatedScene.physics.add.staticGroup();
 
-        for (let i = 0; i < Laberinto.array_laberinto.length; i ++)
+        for (let i = 0; i < matrixLevels.array_levels[nivel].length; i ++)
         {
-            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++)
+            for (let ii = 0; ii < matrixLevels.array_levels[nivel][0].length; ii ++)
             {
-                const valor = Laberinto.array_laberinto[i][ii];
+                const valor = matrixLevels.array_levels[nivel][i][ii];
 
                 this.elegir_tilesNiveles(valor, nivel, i, ii);
             }
-        } */
+        }
 
-        console.log(this.laberinto);
+        console.log(this.tile);
     }
 
     static check_colision(x, y)
     {
         const nivel = Settings.getNivel();
 
-        if (matrixLevels.array_levels[nivel][y][x] === 9) return true;
+        if (matrixLevels.array_levels[nivel][y][x] <= 12) return true;
         return false;
     }
 
     elegir_tilesNiveles(valor, nivel, i, ii)
     {
-        if (valor === 9)
+        const scale = Settings.getScaleGame();
+        const frame = 0;
+
+        /* if (valor <= 12)
         {
             this.tile.create(
-                ii * Settings.tileXY.x,
-                i * Settings.tileXY.y,
-                `tile${nivel}`
-            ).refreshBody();
+                (ii * Settings.tileXY.x) * scale,
+                (i * Settings.tileXY.y) * scale,
+                'tile-map-ssheet', frame
+            ).setScale(scale).refreshBody();
+        } */
+
+        if (valor <= 12)
+        {
+            this.tile.create(
+                (ii * Settings.tileXY.x) * scale,
+                (i * Settings.tileXY.y) * scale,
+                'tile-pacman-marron'
+            ).setScale((Settings.tileXY.y * scale) / 64); // 64x64px = tile-pacman-marron
         }
     }
 

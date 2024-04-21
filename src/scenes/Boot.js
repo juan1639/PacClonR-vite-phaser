@@ -15,7 +15,7 @@ export class Boot extends Scene
             y: Math.floor(this.sys.game.config.height / 2),
             txt: ' Touch screen or \n \n click to start... ',
             size: 60, color: '#ffa', style: 'bold',
-            stroke: '#1e9', sizeStroke: 16,
+            stroke: '#fb1', sizeStroke: 16,
             shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
             bool1: false, bool2: true, origin: [0.5, 0.5],
             elastic: false, dura: 0

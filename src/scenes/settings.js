@@ -10,16 +10,18 @@ export class Settings
     static screen =
     {
         width: 864,
-        height: 744,
+        height: 704,
         escBoundsX: 1.45,
         escBoundsY: 1.6
     };
 
     static tileXY =
     {
-        x: 64,
-        y: 64
+        x: 16,
+        y: 16
     };
+
+    static scaleGame = 4;
 
     static fps =
     {
@@ -52,7 +54,6 @@ export class Settings
         nivelSuperado: {
             activa: false,
             duracion: 3000
-
         }
     };
 
@@ -164,6 +165,11 @@ export class Settings
         return Settings.gameOver;
     }
 
+    static getScaleGame()
+    {
+        return Settings.scaleGame;
+    }
+
     static isPausaInicial()
     {
         return Settings.pausa.inicial;
@@ -272,6 +278,11 @@ export class Settings
     static setGameOver(bool)
     {
         Settings.gameOver = bool;
+    }
+
+    static setScaleGame(scale)
+    {
+        Settings.scaleGame = scale;
     }
 
     static setPausaInicial(bool)
