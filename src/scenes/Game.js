@@ -48,13 +48,13 @@ export class Game extends Scene
     this.set_sonidos();
     // this.set_cameras();
     // this.set_cameras_controles();
-    // this.set_cameras_marcadores();
+    this.set_cameras_marcadores();
 
     this.marcadorPtos.create();
     this.marcadorNivel.create();
     this.marcadorHi.create();
     this.botonfullscreen.create();
-    this.botonesc.create();
+    // this.botonesc.create();
 
     this.hideMobileControls();
 
@@ -272,14 +272,14 @@ export class Game extends Scene
     });
 
     this.botonfullscreen = new BotonFullScreen(this, {
-      x: Math.floor(ancho * 1.55), y: marcadoresPosY + 7, id: 'boton-fullscreen',
+      x: Math.floor(ancho * 1.3), y: marcadoresPosY + 7, id: 'boton-fullscreen',
       orX: 0, orY: 0, scX: 1.2, scY: 0.8, ang: 0
     });
 
-    this.botonesc = new BotonEsc(this, {
+    /* this.botonesc = new BotonEsc(this, {
       left: Math.floor(ancho * 1.42), top: marcadoresPosY + 26, id: 'boton-fire-joystick',
       scX: 0.5, scY: 0.5, angle: 0, originX: 0.5, originY: 0.5, texto: 'Music', nextScene: ''
-    });
+    }); */
   }
 
   set_sonidos()

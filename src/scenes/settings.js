@@ -9,8 +9,8 @@ export class Settings
 
     static screen =
     {
-        width: 800,
-        height: 550,
+        width: 864,
+        height: 744,
         escBoundsX: 1.45,
         escBoundsY: 1.6
     };
@@ -122,7 +122,7 @@ export class Settings
     {
         x: 0,
         y: 0,
-        ancho: 800,
+        ancho: Settings.screen.width,
         alto: 34,
         scrollX: 0,
         scrollY: -90
@@ -263,7 +263,7 @@ export class Settings
     {
         Settings.fps.allowUpdate = bool;
     }
-    
+
     static setNivelSuperado(bool)
     {
         Settings.pausa.nivelSuperado = bool;
