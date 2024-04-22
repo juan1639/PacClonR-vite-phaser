@@ -26,9 +26,12 @@ export class Fantasma
     static ptosClave = [
         [4, 1], [14, 1],
         [4, 4], [6, 4], [12, 4], [14, 4],
-        [4, 8], [6, 8], [12, 8], [14, 8],
-        [1, 11], [4, 11], [6, 11], [12, 11], [14, 11], [17, 11],
-        [4, 13], [6, 13], [12, 13], [14, 13]
+        [10, 8],
+        [4, 10], [6, 10], [9, 10], [12, 10], [14, 10],
+        [6, 12],
+        [4, 14], [6, 14], [12, 14], [14, 14],
+        [4, 16], [8, 16], [10, 16], [14, 16],
+        [8, 20], [10, 20]
     ];
 
     constructor(scene)
@@ -57,7 +60,7 @@ export class Fantasma
             fant.setData('direccion', 'right');
             fant.setData('id', index);
             fant.setCircle(
-                Math.floor((Settings.tileXY.y * scale) / 2),
+                Math.floor(Settings.tileXY.y / 2),
                 Math.floor(Settings.tileXY.x / 12),
                 Math.floor(Settings.tileXY.y / 12)
             );
@@ -82,6 +85,14 @@ export class Fantasma
             }
 
             fant.anims.play(`anim${index}0`, true);
+        });
+
+        Fantasma.ptosClave.forEach(pto =>
+        {
+            this.relatedScene.add.rectangle(
+                pto[0] * Settings.tileXY.x * scale, pto[1] * Settings.tileXY.y * scale,
+                50, 50
+            ).setStrokeStyle(2, 0x1ac).setDepth(Settings.depth.textos);
         });
 
         console.log(this.fantasmas);
