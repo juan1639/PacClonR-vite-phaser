@@ -11,6 +11,7 @@ import { Settings } from './settings.js';
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
+import { Fantasma } from '../components/fantasma.js';
 import { BotonFullScreen, BotonEsc } from '../components/boton-nuevapartida.js';
 import { particulas } from '../functions/functions.js';
 
@@ -36,6 +37,7 @@ export class Game extends Scene
     this.laberinto = new Laberinto(this);
     this.puntitos = new Puntitos(this);
     this.jugador = new Jugador(this);
+    this.fantasmas = new Fantasma(this);
 
     /* this.botonfire = new BotonFire(this, {
       left: Math.floor(this.sys.game.config.width / 1.1),
@@ -55,7 +57,7 @@ export class Game extends Scene
     this.add.image(0, 0, 'fondo-pacman').setScale(1.48, 1.68).setDepth(Settings.depth.fondo).setOrigin(0, 0);
 
     this.set_sonidos();
-    // this.set_cameras();
+    this.set_cameras();
     // this.set_cameras_controles();
     this.set_cameras_marcadores();
 
@@ -67,6 +69,8 @@ export class Game extends Scene
       Settings.pacman.iniY * Settings.tileXY.y * Settings.getScaleGame()
     );
 
+    this.fantasmas.create();
+
     this.marcadorPtos.create();
     this.marcadorNivel.create();
     this.marcadorHi.create();
@@ -75,7 +79,7 @@ export class Game extends Scene
 
     this.hideMobileControls();
 
-    // this.cameras.main.startFollow(this.jugador.get());
+    this.cameras.main.startFollow(this.jugador.get());
     // this.cameras.main.followOffset.set(0, 0);
 
     this.set_colliders();
@@ -99,6 +103,7 @@ export class Game extends Scene
     if (!Settings.isPausaInicial() && !Settings.isGameOver())
     {
       this.jugador.update();
+      this.fantasmas.update();
     }
   }
 

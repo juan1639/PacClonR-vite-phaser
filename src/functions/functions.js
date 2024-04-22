@@ -31,27 +31,6 @@ function colliderJugadorLaberinto(jugador, laberinto)
       }
     }
   }
-
-  // console.log(jugador);
-  // console.log(bloques);
-
-  // if (!this.jugador.controles.space.isDown) console.log('colision:' + bloques.getData('id'));
-
-  /* if ((this.jugador.controles.space.isDown && Settings.controlElegido.teclado && !limits.includes(bloques.getData('id'))) ||
-    (Settings.controlElegido.mobile && !limits.includes(bloques.getData('id'))))
-  {} */
-
-  /* Object.values(Settings.jugador.teclas).forEach((tecla, index) =>
-  {
-    if (this.jugador.controles[tecla].isDown || this.joystickCursors[tecla].isDown) indexTecla = index; 
-  }); */
-  
-  // console.log('empujando:' + bloques.getData('id'), indexTecla);
-  
-  // const array_vel = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-
-  /* this.jugador.get().setX(this.jugador.viejaX);
-  this.jugador.get().setY(this.jugador.viejaY); */
 }
 
 function colliderJugadorPuntitos(jugador, puntito)

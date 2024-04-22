@@ -11,8 +11,8 @@ export class Settings
     {
         width: 864,
         height: 704,
-        escBoundsX: 1.45,
-        escBoundsY: 1.6
+        escBoundsX: 1.35,
+        escBoundsY: 1.90
     };
 
     static tileXY =
@@ -62,7 +62,7 @@ export class Settings
         iniX: 9,
         iniY: 4,
         vel: 4,
-        velocity: 200,
+        velocity: 120,
         invisible: false,
         // [velX, velY, angle, body.touching...]
         direccion: {

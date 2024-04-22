@@ -68,12 +68,17 @@ export class Preloader extends Scene
         this.load.image('tile-pacman-marron', './img/tile_pacmanMarron.png');
 
         this.load.spritesheet('pacman', './img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet('fantasmas', './img/fantasmas-ssheet.png', {frameWidth: 16, frameHeight: 16});
         this.load.spritesheet('frutas', './img/frutas-ssheet.png', {frameWidth: 16, frameHeight: 16});
+        this.load.spritesheet('fantasmas', './img/fantasmas-ssheet.png', {frameWidth: 16, frameHeight: 16});
 
-        // Pluggin VirtualJoystick
-        // let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
-        // this.load.plugin('rexvirtualjoystickplugin', url, true);
+        for (let i = 0; i < 4; i ++)
+        {
+            this.load.spritesheet(`fantanim0${i}`, `./img/fantanim0${i}.png`, {frameWidth: 16, frameHeight: 16});
+            this.load.spritesheet(`fantanim1${i}`, `./img/fantanim1${i}.png`, {frameWidth: 16, frameHeight: 16});
+            this.load.spritesheet(`fantanim2${i}`, `./img/fantanim2${i}.png`, {frameWidth: 16, frameHeight: 16});
+            this.load.spritesheet(`fantanim3${i}`, `./img/fantanim3${i}.png`, {frameWidth: 16, frameHeight: 16});
+            // this.load.spritesheet(`fantanim5${i}`, `./img/fantanim5${i}.png`, {frameWidth: 50, frameHeight: 50});
+        }
 
         //  Archivos de audio
         this.load.audio('gameover-retro', './audio/gameoveretro.ogg');
