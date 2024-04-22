@@ -63,9 +63,13 @@ export class Preloader extends Scene
         this.load.spritesheet('laberinto-1', './img/atlas-pacman.png', {frameWidth: 228, frameHeight: 248});
         this.load.spritesheet('tile-map-ssheet', './img/tilemap-pacman.png', {frameWidth: 16, frameHeight: 16});
 
+        this.load.image('puntito', './img/puntito.png');
+
         this.load.image('tile-pacman-marron', './img/tile_pacmanMarron.png');
 
         this.load.spritesheet('pacman', './img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('fantasmas', './img/fantasmas-ssheet.png', {frameWidth: 16, frameHeight: 16});
+        this.load.spritesheet('frutas', './img/frutas-ssheet.png', {frameWidth: 16, frameHeight: 16});
 
         // Pluggin VirtualJoystick
         // let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';

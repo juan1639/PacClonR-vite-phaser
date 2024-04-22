@@ -62,7 +62,7 @@ export class Settings
         iniX: 9,
         iniY: 4,
         vel: 4,
-        velocity: 100,
+        velocity: 200,
         invisible: false,
         // [velX, velY, angle, body.touching...]
         direccion: {

@@ -19,9 +19,9 @@ export class Jugador
             Math.floor(Settings.tileXY.y / 6)
         );
 
-        this.jugador.setAngle(0);
+        this.jugador.setDepth(Settings.depth.jugador).setAngle(0);
         this.jugador.setScale(((Settings.tileXY.y * scale) / 64) * 0.9); // 64x64px pacman ssheet
-
+        
         this.jugador.setData('intento-giro', 'right');
         this.establecer_velocidad(true);
 

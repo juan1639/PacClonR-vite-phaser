@@ -4,7 +4,8 @@ import { Textos } from "../components/textos";
 
 function colliderJugadorLaberinto(jugador, laberinto)
 {
-  console.log('colision');
+  // console.log(jugador, laberinto);
+
   console.log(
     jugador.body.touching.up,
     jugador.body.touching.right,
@@ -53,38 +54,14 @@ function colliderJugadorLaberinto(jugador, laberinto)
   this.jugador.get().setY(this.jugador.viejaY); */
 }
 
-function colliderJugadorJewels(jugador, jewels)
+function colliderJugadorPuntitos(jugador, puntito)
 {
-  // console.log(jugador);
-  // console.log(jewels);
+  // console.log(jugador, puntitos);
 
-  if (!this.jugador.controles.space.isDown) console.log('colision:' + jewels.getData('id'));
-
-  if ((this.jugador.controles.space.isDown && Settings.controlElegido.teclado) || Settings.controlElegido.mobile)
-  {
-    let indexTecla = 99; // No direction-key pressed (default)
-    play_sonidos(this.sonido_ziuuu, false, 0.2);
-
-    Settings.mideTiempo[0] = this.time.now;
-
-    Object.values(Settings.jugador.teclas).forEach((tecla, index) =>
-    {
-      if (this.jugador.controles[tecla].isDown || this.joystickCursors[tecla].isDown) indexTecla = index; 
-    });
-
-    console.log('empujando:' + jewels.getData('id'), indexTecla);
-
-    const array_vel = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-
-    if (indexTecla >= 0 && indexTecla < 4)
-    {
-      jewels.setData('vel-x', array_vel[indexTecla][0] * Settings.bloques.velPxl);
-      jewels.setData('vel-y', array_vel[indexTecla][1] * Settings.bloques.velPxl);
-    }
-  }
-
-  this.jugador.get().setX(this.jugador.viejaX);
-  this.jugador.get().setY(this.jugador.viejaY);
+  suma_puntos(puntito, this);
+  this.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
+  puntito.disableBody(true, true);
+  play_sonidos(this.sonido_waka, false, 0.9);
 }
 
 function colliderBloquesBloques(bloques1, bloques2)
@@ -494,6 +471,7 @@ function play_sonidos(id, loop, volumen)
 
 export {
   colliderJugadorLaberinto,
+  colliderJugadorPuntitos,
   particulas,
   countDownBonus,
   play_sonidos

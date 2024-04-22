@@ -22,7 +22,7 @@ const config = {
           debug: false
         }
     },
-    // pixelArt: true,
+    pixelArt: true,
     scene: [
         Boot,
         Preloader,

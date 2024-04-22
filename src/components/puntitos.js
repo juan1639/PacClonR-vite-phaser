@@ -1,6 +1,6 @@
+import { matrixLevels } from "../scenes/matrixLevels.js";
 import { Settings } from "../scenes/settings.js";
-import { Laberinto } from "./laberinto.js";
-import { particulas } from "../utils/functions.js";
+import { particulas } from "../functions/functions.js";
 
 export class Puntitos
 {
@@ -11,19 +11,26 @@ export class Puntitos
 
     create()
     {
+        const scale = Settings.getScaleGame();
+        const nivel = Settings.getNivel();
+
         this.puntito = this.relatedScene.physics.add.staticGroup();
 
-        for (let i = 0; i < Laberinto.array_laberinto.length; i ++)
+        for (let i = 0; i < matrixLevels.array_levels[nivel].length; i ++)
         {
-            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++)
+            for (let ii = 0; ii < matrixLevels.array_levels[nivel][i].length; ii ++)
             {
-                const valor = Laberinto.array_laberinto[i][ii];
+                const valor = matrixLevels.array_levels[nivel][i][ii];
 
-                if (valor === 1)
+                if (valor > 12)
                 {
+                    if (i === Settings.pacman.iniY && ii === Settings.pacman.iniX) continue;
+
                     this.puntito.create(
-                        ii * Settings.tileXY.x, i * Settings.tileXY.y, 'puntito'
-                    ).setScale(0.25).setData('puntos', 10).refreshBody();
+                        ii * Settings.tileXY.x * scale,
+                        i * Settings.tileXY.y * scale,
+                        'puntito'
+                    ).setScale(0.6).setDepth(Settings.depth.puntitos).setData('puntos', 10).refreshBody();
                 }
             }
         }

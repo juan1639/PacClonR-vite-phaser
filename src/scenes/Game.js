@@ -9,12 +9,14 @@ import { Textos } from '../components/textos.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
 import { Laberinto } from '../components/laberinto.js';
+import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { BotonFullScreen, BotonEsc } from '../components/boton-nuevapartida.js';
 import { particulas } from '../functions/functions.js';
 
 import {
   colliderJugadorLaberinto,
+  colliderJugadorPuntitos,
   play_sonidos
 } from '../functions/functions.js';
 
@@ -32,6 +34,7 @@ export class Game extends Scene
     this.set_pausaInicial(4200);
 
     this.laberinto = new Laberinto(this);
+    this.puntitos = new Puntitos(this);
     this.jugador = new Jugador(this);
 
     /* this.botonfire = new BotonFire(this, {
@@ -57,10 +60,11 @@ export class Game extends Scene
     this.set_cameras_marcadores();
 
     this.laberinto.create();
+    this.puntitos.create();
 
     this.jugador.create(
-      Settings.pacman.iniX * Settings.tileXY.x,
-      Settings.pacman.iniY * Settings.tileXY.y
+      Settings.pacman.iniX * Settings.tileXY.x * Settings.getScaleGame(),
+      Settings.pacman.iniY * Settings.tileXY.y * Settings.getScaleGame()
     );
 
     this.marcadorPtos.create();
@@ -181,8 +185,8 @@ export class Game extends Scene
     // Collide Jugador-Laberinto
     this.physics.add.collider(this.jugador.get(), this.laberinto.get(), colliderJugadorLaberinto, null, this);
 
-    // Collide Jugador-Jewels
-    // this.physics.add.collider(this.jugador.get(), this.jewels.get(), colliderJugadorJewels, null, this);
+    // Collide Jugador-Puntitos
+    this.physics.add.collider(this.jugador.get(), this.puntitos.get(), colliderJugadorPuntitos, null, this);
 
     // Collide Bloques-Bloques
     // this.physics.add.collider(this.bloques.get(), this.bloques.get(), colliderBloquesBloques, null, this);
@@ -283,5 +287,6 @@ export class Game extends Scene
     this.sonido_youWin = this.sound.add('you-win');
     this.sonido_key = this.sound.add('key');
     this.sonido_numkey = this.sound.add('numkey');
+    this.sonido_waka = this.sound.add('pacman-waka');
   }
 }
