@@ -11,6 +11,16 @@ export class Puntitos
 
     create()
     {
+        const arrayNoPuntitos = [
+            [Settings.pacman.iniY, Settings.pacman.iniX],
+            [1, 1], [1, 17], [16, 1], [16, 17],
+            [12, 0], [12, 1], [12, 2], [12, 3],
+            [12, 15], [12, 16], [12, 17], [12, 18],
+            [10, 0], [10, 18],
+            [8, 0], [8, 1], [8, 2], [8, 3],
+            [8, 15], [8, 16], [8, 17], [8, 18]
+        ];
+
         const scale = Settings.getScaleGame();
         const nivel = Settings.getNivel();
 
@@ -24,7 +34,9 @@ export class Puntitos
 
                 if (valor > 12)
                 {
-                    if (i === Settings.pacman.iniY && ii === Settings.pacman.iniX) continue;
+                    const noPuntito = arrayNoPuntitos.some(coor => i === coor[0] && ii === coor[1]);
+
+                    if (noPuntito) continue;
 
                     this.puntito.create(
                         ii * Settings.tileXY.x * scale,

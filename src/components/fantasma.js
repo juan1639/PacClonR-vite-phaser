@@ -1,3 +1,4 @@
+import { matrixLevels } from '../scenes/matrixLevels.js';
 import { Settings } from '../scenes/settings.js';
 import { Laberinto } from './laberinto.js';
 
@@ -14,6 +15,7 @@ export class Fantasma
         down: [0, 1, 0, 1, 90, 'down']
     };
 
+    // Posible random directions
     static OTRA_DIRECCION_RND =
     {
         left: ['right', 'up', 'down'],
@@ -23,6 +25,7 @@ export class Fantasma
     };
 
     // Algunos ptos del Laberinto donde los fantasmas pueden cambiar de direccion
+    // Some points when Ghosts can change direction
     static ptosClave = [
         [4, 1], [14, 1],
         [4, 4], [6, 4], [12, 4], [14, 4],
@@ -45,14 +48,20 @@ export class Fantasma
 
         this.fantasmas = this.relatedScene.physics.add.group(
         {
-            key: ['fantanim0', 'fantanim1', 'fantanim2', 'fantanim3'],
+            key: ['fantanim0', 'fantanim1', 'fantanim2'],
             frameQuantity: 1,
             setXY: {
                 x: Settings.fantasmasIniXY.azul[0] * Settings.tileXY.x * scale,
                 y: Settings.fantasmasIniXY.azul[1] * Settings.tileXY.y * scale,
-                stepX: (Settings.tileXY.x * scale) * 2
+                stepX: (Settings.tileXY.x * scale)
             }
         });
+
+        this.fantasmas.create(
+            Settings.fantasmasIniXY.pink[0] * Settings.tileXY.x * scale,
+            Settings.fantasmasIniXY.pink[1] * Settings.tileXY.y * scale,
+            'fantanim3'
+        );
 
         this.fantasmas.children.iterate((fant, index) =>
         {
@@ -87,13 +96,13 @@ export class Fantasma
             fant.anims.play(`anim${index}0`, true);
         });
 
-        Fantasma.ptosClave.forEach(pto =>
+        /* Fantasma.ptosClave.forEach(pto =>
         {
             this.relatedScene.add.rectangle(
                 pto[0] * Settings.tileXY.x * scale, pto[1] * Settings.tileXY.y * scale,
                 50, 50
             ).setStrokeStyle(2, 0x1ac).setDepth(Settings.depth.textos);
-        });
+        }); */
 
         console.log(this.fantasmas);
     }
@@ -150,13 +159,21 @@ export class Fantasma
             
             if (!(Laberinto.check_colision(x, y)))
             {
-
                 fant.x += direcc[fant.getData('direccion')][0] * Fantasma.VEL;
                 fant.y += direcc[fant.getData('direccion')][1] * Fantasma.VEL;
 
                 // Escapatorias
-                //if (fant.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && fant.getData('direccion') === 'right') fant.x = -Settings.tileXY.x;
-                //if (fant.x < -Settings.tileXY.x && fant.getData('direccion') === 'left') fant.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
+                const nivel = Settings.getNivel();
+
+                if (fant.x > matrixLevels.array_levels[nivel][0].length * (Settings.tileXY.x * scale) && fant.getData('direccion') === 'right')
+                {
+                    fant.x = -(Settings.tileXY.x * scale);
+                }
+
+                if (fant.x < -(Settings.tileXY.x * scale) && fant.getData('direccion') === 'left')
+                {
+                    fant.x = (matrixLevels.array_levels[nivel][0].length - 1) * (Settings.tileXY.x * scale);
+                }
 
             } else
             {

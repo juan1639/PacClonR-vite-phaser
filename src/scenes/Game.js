@@ -32,7 +32,7 @@ export class Game extends Scene
   {
     Settings.setGameOver(false);
 
-    this.set_pausaInicial(4200);
+    this.set_pausaInicial(Settings.getPausaInicialDuracion());
 
     this.laberinto = new Laberinto(this);
     this.puntitos = new Puntitos(this);
@@ -112,11 +112,11 @@ export class Game extends Scene
     Settings.setPausaInicial(true);
 
     this.txtpreparado = new Textos(this, {
-      x: Math.floor(this.sys.game.config.width / 2),
+      x: Settings.pacman.iniX * (Settings.tileXY.x * Settings.getScaleGame()),
       y: 0,
       txt: 'Ready!',
       size: 78, color: '#ffa', style: 'bold',
-      stroke: '#fa1', sizeStroke: 16,
+      stroke: '#f81', sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
       bool1: false, bool2: true, origin: [0.5, 0.5],
       elastic: Math.floor(this.sys.game.config.height / 2), dura: 2800
@@ -144,7 +144,7 @@ export class Game extends Scene
   set_txtGo()
   {
     const txtgo = new Textos(this, {
-      x: Math.floor(this.sys.game.config.width / 2),
+      x: Settings.pacman.iniX * (Settings.tileXY.x * Settings.getScaleGame()),
       y: Math.floor(this.sys.game.config.height / 2),
       txt: ' Go! ',
       size: 90, color: '#ffa', style: 'bold',
@@ -158,7 +158,7 @@ export class Game extends Scene
     txtgo.get().setDepth(Settings.depth.textos);
 
     this.tweens.add({
-      targets: txtgo.get(), alpha: 0, duration: 2200
+      targets: txtgo.get(), alpha: 0, duration: 1200
     });
   }
 

@@ -1,3 +1,4 @@
+import { matrixLevels } from '../scenes/matrixLevels.js';
 import { Settings } from '../scenes/settings.js';
 
 export class Jugador
@@ -54,6 +55,8 @@ export class Jugador
     {
         if (!this.jugador.body.enable || Settings.isPausaComeFantasma() || Settings.isNivelSuperado()) return;
 
+        const scale = Settings.getScaleGame();
+
         const direcc = Settings.pacman.direccion;
 
         Object.keys(direcc).forEach(tecla =>
@@ -89,8 +92,17 @@ export class Jugador
         }
 
         // Escapatorias
-        //if (this.jugador.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && direcc[this.direccion][0] > 0) this.jugador.x = -Settings.tileXY.x;
-        //if (this.jugador.x < -Settings.tileXY.x && direcc[this.direccion][0] < 0) this.jugador.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
+        const nivel = Settings.getNivel();
+
+        if (this.jugador.x > matrixLevels.array_levels[nivel][0].length * (Settings.tileXY.x * scale) && direcc[this.jugador.getData('direccion')][0] > 0)
+        {
+            this.jugador.x = -(Settings.tileXY.x * scale);
+        }
+
+        if (this.jugador.x < -Settings.tileXY.x && direcc[this.jugador.getData('direccion')][0] < 0)
+        {
+            this.jugador.x = (matrixLevels.array_levels[nivel][0].length - 1) * (Settings.tileXY.x * scale);
+        }
 
         console.log(Settings.pacman.arrayAcumDir.length);
         // console.log(this.jugador.getData('direccion'));
@@ -107,10 +119,23 @@ export class Jugador
 
         if (!firstTime) this.arrayNoMore50();
 
-        const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
-        const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
-        this.jugador.setVelocityX(velX);
-        this.jugador.setVelocityY(velY);
+        if (!firstTime)
+        {
+            const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+            const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+            this.jugador.setVelocityX(velX);
+            this.jugador.setVelocityY(velY);
+        }
+        else
+        {
+            this.relatedScene.time.delayedCall(Settings.getPausaInicialDuracion(), () =>
+            {
+                const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+                const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+                this.jugador.setVelocityX(velX);
+                this.jugador.setVelocityY(velY);
+            });
+        }
     }
 
     arrayNoMore50()

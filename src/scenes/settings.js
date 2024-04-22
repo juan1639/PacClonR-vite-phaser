@@ -84,10 +84,10 @@ export class Settings
 
     static fantasmasIniXY =
     {
-        azul: [4, 8],
-        rojo: [8, 8],
-        verde: [12, 8],
-        pink: [16, 8],
+        azul: [8, 10],
+        rojo: [9, 10],
+        verde: [10, 10],
+        pink: [9, 8],
     };
 
     static fantasmasScary =
@@ -182,7 +182,12 @@ export class Settings
 
     static isPausaInicial()
     {
-        return Settings.pausa.inicial;
+        return Settings.pausa.inicial.activa;
+    }
+
+    static getPausaInicialDuracion()
+    {
+        return Settings.pausa.inicial.duracion;
     }
 
     static isPacmanDies()
@@ -297,7 +302,7 @@ export class Settings
 
     static setPausaInicial(bool)
     {
-        Settings.pausa.inicial = bool;
+        Settings.pausa.inicial.activa = bool;
     }
 
     static isPacmanDies(bool)
