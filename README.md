@@ -1,3 +1,11 @@
+# Pac Clon 2
+
+This is a clon-recreation of the classic arcade game Pacman of 1980
+
+https://juan1639.github.io/PacClon2-vite-phaser
+
+<img src="miniatura-pacClon2.png" alt="game screenshot"/>
+
 # Phaser Vite Template
 
 This is a Phaser 3 project template that uses Vite for bundling. It supports hot-reloading for quick development workflow and includes scripts to generate production-ready builds.
