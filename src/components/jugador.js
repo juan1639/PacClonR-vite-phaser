@@ -63,25 +63,25 @@ export class Jugador
         {
             if (this.controles[tecla].isDown) this.jugador.setData('intento-giro', tecla);
 
-            /* if (Settings.controlElegido.mobile)
+            if (Settings.controlElegido.mobile)
             {
                 if (this.relatedScene.crucetaup.isDown)
                 {
-                    this.intentoGiro = 'up';
+                    this.jugador.setData('intento-giro', 'up');
 
-                } else if (this.relatedScene.crucetadown.isDown)
+                } else if (this.relatedScene.crucetado.isDown)
                 {
-                    this.intentoGiro = 'down';
+                    this.jugador.setData('intento-giro', 'down');
 
-                } else if (this.relatedScene.crucetaleft.isDown)
+                } else if (this.relatedScene.crucetale.isDown)
                 {
-                    this.intentoGiro = 'left';
+                    this.jugador.setData('intento-giro', 'left');
 
-                } else if (this.relatedScene.crucetaright.isDown)
+                } else if (this.relatedScene.crucetari.isDown)
                 {
-                    this.intentoGiro = 'right';
+                    this.jugador.setData('intento-giro', 'right');
                 }
-            } */
+            }
         });
 
         const intentoGiro = Settings.pacman.direccion[this.jugador.getData('intento-giro')][3];
@@ -206,7 +206,7 @@ export class JugadorShowVidas
             setXY: {
                 x: left,
                 y: top,
-                stepX: Settings.tileXY.x
+                stepX: Settings.tileXY.x * Settings.getScaleGame()
             },
             frame: 4
         });

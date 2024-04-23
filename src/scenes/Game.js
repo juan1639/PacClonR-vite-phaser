@@ -65,6 +65,7 @@ export class Game extends Scene
 
     this.fantasmas.create();
 
+    this.jugadorshowvidas.create();
     this.marcadorPtos.create();
     this.marcadorNivel.create();
     this.marcadorHi.create();
@@ -254,7 +255,7 @@ export class Game extends Scene
 
     const marcadoresPosY = -99;
 
-    // this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.4), top: marcadoresPosY + 9});
+    this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.44), top: marcadoresPosY + 9});
 
     this.marcadorPtos = new Marcador(this, {
       x: 10, y: marcadoresPosY, size: 40, txt: Settings.getTxtScore(), color: '#fff', strokeColor: '#af1', id: 0

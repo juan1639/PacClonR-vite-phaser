@@ -215,6 +215,8 @@ export class CrucetaControl
     this.boton.setAngle(ang).setDepth(Settings.depth.controles);
     this.boton.setX(x).setY(y);
 
+    this.isDown = false; // By default No pressed
+
     this.boton.on('pointerover', () =>
     {
       // this.boton.setFrame(1);
@@ -225,11 +227,13 @@ export class CrucetaControl
     {
       // this.boton.setFrame(0);
       this.boton.setScale(scX, scY);
+      this.isDown = false;
     });
 
     this.boton.on('pointerdown', () =>
     {
-      console.log('up');
+      console.log(id);
+      this.isDown = true;
     });
   }
 
