@@ -82,7 +82,7 @@ export class ElegirControles
           Settings.controlElegido[control] = false;
         });
   
-        Settings.controlElegido[this.radiobutton.getData('id').slice(0, -8)] = true;
+        Settings.controlElegido[this.radiobutton.getData('id').slice(0, -8)] = true; // ex: id='mobile-control'.slice(0, -8)
         console.log(Settings.controlElegido.mobile, Settings.controlElegido.keyboard);
       }
       else if (id.includes('velocity'))

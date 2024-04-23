@@ -12,6 +12,7 @@ import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { Fantasma } from '../components/fantasma.js';
+import { Cerezas } from '../components/cerezas.js';
 import { BotonFullScreen, BotonEsc, CrucetaControl } from '../components/boton-nuevapartida.js';
 import { particulas } from '../functions/functions.js';
 
@@ -39,6 +40,7 @@ export class Game extends Scene
     this.puntitosgordos = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
     this.fantasmas = new Fantasma(this);
+    this.cerezas = new Cerezas(this);
 
     this.instanciar_mobileControls();
     this.instanciar_marcadores();
@@ -69,6 +71,7 @@ export class Game extends Scene
     );
 
     this.fantasmas.create();
+    this.cerezas.create();
 
     this.jugadorshowvidas.create();
     this.marcadorPtos.create();
@@ -109,6 +112,7 @@ export class Game extends Scene
     {
       this.jugador.update();
       this.fantasmas.update();
+      this.cerezas.update();
     }
   }
 

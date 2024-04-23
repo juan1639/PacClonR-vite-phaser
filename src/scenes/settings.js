@@ -118,7 +118,7 @@ export class Settings
         dori: [16, 17]
     };
 
-    static cerezasIniXY = [9, 8];
+    static cerezasIniXY = [9, 12];
 
     static bonusCerezas = [
         300, 300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000
