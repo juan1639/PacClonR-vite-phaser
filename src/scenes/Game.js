@@ -12,7 +12,7 @@ import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { Fantasma } from '../components/fantasma.js';
-import { BotonFullScreen, BotonEsc } from '../components/boton-nuevapartida.js';
+import { BotonFullScreen, BotonEsc, CrucetaControl } from '../components/boton-nuevapartida.js';
 import { particulas } from '../functions/functions.js';
 
 import {
@@ -39,13 +39,7 @@ export class Game extends Scene
     this.jugador = new Jugador(this);
     this.fantasmas = new Fantasma(this);
 
-    /* this.botonfire = new BotonFire(this, {
-      left: Math.floor(this.sys.game.config.width / 1.1),
-      top: -500,
-      id: 'boton-fire-joystick',
-      scX: 0.6, scY: 1.1, angle: 0, originX: 0.5, originY: 0.5, alpha: 0.6, texto: 'Push'
-    }); */
-
+    this.instanciar_mobileControls();
     this.instanciar_marcadores();
   }
 
@@ -58,7 +52,7 @@ export class Game extends Scene
 
     this.set_sonidos();
     this.set_cameras();
-    // this.set_cameras_controles();
+    this.set_cameras_controles();
     this.set_cameras_marcadores();
 
     this.laberinto.create();
@@ -76,6 +70,11 @@ export class Game extends Scene
     this.marcadorHi.create();
     this.botonfullscreen.create();
     // this.botonesc.create();
+
+    this.crucetaup.create();  
+    this.crucetado.create();  
+    this.crucetale.create();  
+    this.crucetari.create();  
 
     this.hideMobileControls();
 
@@ -184,26 +183,20 @@ export class Game extends Scene
 
   set_colliders()
   {
-    // Overlap Jugador-Fantasmas
-    // this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), overlapJugadorFantasmas, exceptoNotVisible, this);
-    
     // Collide Jugador-Laberinto
     this.physics.add.collider(this.jugador.get(), this.laberinto.get(), colliderJugadorLaberinto, null, this);
-
+    
     // Collide Jugador-Puntitos
     this.physics.add.collider(this.jugador.get(), this.puntitos.get(), colliderJugadorPuntitos, null, this);
+    
+    // Collide Jugador-PuntitosGordos
+    // this.physics.add.collider(this.jugador.get(), this.puntitosgordos.get(), colliderJugadorPuntitosGordos, null, this);
 
-    // Collide Bloques-Bloques
-    // this.physics.add.collider(this.bloques.get(), this.bloques.get(), colliderBloquesBloques, null, this);
+    // Collide Jugador-Frutas
+    // this.physics.add.collider(this.jugador.get(), this.fruta.get(), colliderJugadorFruta, null, this);
 
-    // Collide Bloques-Jewels
-    // this.physics.add.collider(this.bloques.get(), this.jewels.get(), colliderBloquesJewels, null, this);
-
-    // Collide Jewels-Bloques
-    // this.physics.add.collider(this.jewels.get(), this.bloques.get(), colliderJewelsBloques, null, this);
-
-    // Collide Jewels-Jewels
-    // this.physics.add.collider(this.jewels.get(), this.jewels.get(), colliderJewelsJewels, null, this);
+    // Overlap Jugador-Fantasmas
+    // this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), overlapJugadorFantasmas, exceptoNotVisible, this);
   }
 
   hideMobileControls()
@@ -212,8 +205,10 @@ export class Game extends Scene
     
     if (!Settings.controlElegido.mobile)
     {
-      // this.botonfire.get().setVisible(false);
-      // this.botonfire.txt.get().setVisible(false);
+      this.crucetale.get().setVisible(false);
+      this.crucetari.get().setVisible(false);
+      this.crucetaup.get().setVisible(false);
+      this.crucetado.get().setVisible(false);
     }
   }
 
@@ -282,6 +277,41 @@ export class Game extends Scene
       left: Math.floor(ancho * 1.42), top: marcadoresPosY + 26, id: 'boton-fire-joystick',
       scX: 0.5, scY: 0.5, angle: 0, originX: 0.5, originY: 0.5, texto: 'Music', nextScene: ''
     }); */
+  }
+
+  instanciar_mobileControls()
+  {
+    const posY = -1000;
+    const sizeXY = [128, 128];
+    const gap = 20;
+
+    this.crucetaup = new CrucetaControl(this, {
+      x: sizeXY[0] + gap,
+      y: posY,
+      id: 'cruceta-up',
+      orX: 0.5, orY: 0.5, scX: 1, scY: 1, ang: 0, alpha: 0.8, texto: ''
+    });
+
+    this.crucetado = new CrucetaControl(this, {
+      x: sizeXY[0] + gap,
+      y: posY + sizeXY[1] + gap,
+      id: 'cruceta-do',
+      orX: 0.5, orY: 0.5, scX: 1, scY: 1, ang: 180, alpha: 0.8, texto: ''
+    });
+
+    this.crucetale = new CrucetaControl(this, {
+      x: 0,
+      y: posY + sizeXY[1] + gap,
+      id: 'cruceta-le',
+      orX: 0.5, orY: 0.5, scX: 1, scY: 1, ang: 270, alpha: 0.8, texto: ''
+    });
+
+    this.crucetari = new CrucetaControl(this, {
+      x: (sizeXY[0] + gap) * 2,
+      y: posY + sizeXY[1] + gap,
+      id: 'cruceta-ri',
+      orX: 0.5, orY: 0.5, scX: 1, scY: 1, ang: 90, alpha: 0.8, texto: ''
+    });
   }
 
   set_sonidos()

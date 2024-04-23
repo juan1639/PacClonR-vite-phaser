@@ -122,11 +122,11 @@ export class Settings
     static cameraControles =
     {
         x: 0,
-        y: 300,
-        ancho: 800,
-        alto: 290,
-        scrollX: 0,
-        scrollY: 1250
+        y: Settings.screen.height - (128 * 2), // 128px buttons controls
+        ancho: 600,
+        alto: 400,
+        scrollX: -70,
+        scrollY: -1080
     };
 
     static cameraScores =

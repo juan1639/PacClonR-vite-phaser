@@ -55,6 +55,7 @@ export class Preloader extends Scene
 
         this.load.image('boton-nueva-partida', './img/ui-newgame.png');
         this.load.image('boton-fire-joystick', './img/ui-1.png');
+        this.load.image('cruceta', './img/cruceta-up.png');
         this.load.spritesheet('radio-buttons', './img/radio-buttons-ssheet.png', {frameWidth: 50, frameHeight: 50});
         this.load.spritesheet('boton-fullscreen', './img/boton-fullscreen.png', {frameWidth: 64, frameHeight: 64});
 

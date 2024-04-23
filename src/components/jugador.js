@@ -104,7 +104,7 @@ export class Jugador
             this.jugador.x = (matrixLevels.array_levels[nivel][0].length - 1) * (Settings.tileXY.x * scale);
         }
 
-        console.log(Settings.pacman.arrayAcumDir.length);
+        // console.log(Settings.pacman.arrayAcumDir.length);
         // console.log(this.jugador.getData('direccion'));
         // console.log(this.jugador.x, this.jugador.y);
     }
