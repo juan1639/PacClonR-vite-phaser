@@ -11,8 +11,11 @@ export class Puntitos
 
     create()
     {
+        const gordos = Settings.puntitosGordos;
+
         const arrayNoPuntitos = [
             [Settings.pacman.iniY, Settings.pacman.iniX],
+            [gordos.uple],[gordos.upri],[gordos.dole],[gordos.dori],
             [1, 1], [1, 17], [16, 1], [16, 17],
             [12, 0], [12, 1], [12, 2], [12, 3],
             [12, 15], [12, 16], [12, 17], [12, 18],
@@ -66,21 +69,19 @@ export class PuntitosGordos
 
     create()
     {
+        const gordos = Settings.puntitosGordos;
+        const scale = Settings.getScaleGame();
+
         this.puntitosgordos = this.relatedScene.physics.add.staticGroup();
 
-        for (let i = 0; i < Laberinto.array_laberinto.length; i ++)
+        Object.keys(gordos).forEach(gordo =>
         {
-            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++)
-            {
-                const valor = Laberinto.array_laberinto[i][ii];
-
-                if (valor === 5)
-                {
-                    this.puntitosgordos.create(ii * Settings.tileXY.x, i * Settings.tileXY.y, 'puntito')
-                        .setData('puntos', 50).setScale(1.6).refreshBody();
-                }
-            }
-        }
+            this.puntitosgordos.create(
+                gordos[gordo][1] * (Settings.tileXY.x * scale),
+                gordos[gordo][0] * (Settings.tileXY.y * scale),
+                'puntito'
+            ).setData('puntos', 50).setScale(1.6).refreshBody();
+        });
 
         this.relatedScene.tweens.add(
         {
@@ -96,10 +97,10 @@ export class PuntitosGordos
         {
             particulas(
                 gordo.x, gordo.y,
-                'sparkle',
-                100,
+                'particula1',
+                50,
                 500,
-                {start: 0.17, end: 0},
+                {start: 0.05, end: 0.2},
                 0xffff55,
                 null, false, this.relatedScene
             );

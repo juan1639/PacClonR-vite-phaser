@@ -392,12 +392,7 @@ function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene
     blendMode: 'ADD'
   });
 
-  partis.setDepth(Settings.depth.bonus3Jewels);
-
-  scene.time.delayedCall(Settings.pausas.bonus3Jewels.duracion, () => {
-    partis.stop();
-    Settings.audio.musicaFondo.volume = 0.6;
-  });
+  partis.setDepth(Settings.depth.efectos);
 
   if (bool) partis.startFollow(sprite);
 }

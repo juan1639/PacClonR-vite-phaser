@@ -36,6 +36,7 @@ export class Game extends Scene
 
     this.laberinto = new Laberinto(this);
     this.puntitos = new Puntitos(this);
+    this.puntitosgordos = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
     this.fantasmas = new Fantasma(this);
 
@@ -57,6 +58,7 @@ export class Game extends Scene
 
     this.laberinto.create();
     this.puntitos.create();
+    this.puntitosgordos.create();
 
     this.jugador.create(
       Settings.pacman.iniX * Settings.tileXY.x * Settings.getScaleGame(),

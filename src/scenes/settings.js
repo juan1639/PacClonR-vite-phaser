@@ -105,6 +105,14 @@ export class Settings
         duracion: 3200
     };
 
+    static puntitosGordos =
+    {
+        uple: [1, 1],
+        upri: [1, 17],
+        dole: [16, 1],
+        dori: [16, 17]
+    };
+
     static cerezasIniXY = [9, 8];
 
     static bonusCerezas = [
