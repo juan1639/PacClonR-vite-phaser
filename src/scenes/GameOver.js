@@ -28,20 +28,28 @@ export class PreGame extends Scene
             texto: ' Start ', nextScene: 'Game'
         });
 
+        this.botonmoresettings = new BotonNuevaPartida(this, {
+            left: Math.floor(this.sys.game.config.width / 1.15),
+            top: Math.floor(this.sys.game.config.height / 1.2),
+            id: 'boton-more-settings',
+            scX: 0.6, scY: 0.8, angle: 0, originX: 0.5, originY: 0.5,
+            texto: '  More\nSettings', nextScene: 'More-Settings'
+        });
+
         this.radiobuttons = [];
 
         this.radiobuttons.push(new ElegirControles(this, {
             left: Math.floor(this.sys.game.config.width / 15),
             top: Math.floor(this.sys.game.config.height / 6),
             addLeft: 0, orX: 0, orY: 0.5, frame: 1, scale: 1,
-            txtSize: 50, texto: ' Keyboard cursors ', id: 'keyboard'
+            txtSize: 50, texto: ' Keyboard cursors ', id: 'keyboard-control'
         }));
 
         this.radiobuttons.push(new ElegirControles(this, {
             left: Math.floor(this.sys.game.config.width / 15),
             top: Math.floor(this.sys.game.config.height / 3.2),
             addLeft: 0, orX: 0, orY: 0.5, frame: 0, scale: 1,
-            txtSize: 50, texto: ' Mobile controls ', id: 'mobile'
+            txtSize: 50, texto: ' Mobile controls ', id: 'mobile-control'
         }));
 
         this.radioFps = [];
@@ -67,6 +75,8 @@ export class PreGame extends Scene
         
         this.radiobuttons.forEach(radiobutton => radiobutton.create());
         this.radioFps.forEach(fps => fps.create());
-        this.botoninicio.create('Game', false);
+
+        this.botonmoresettings.create();
+        this.botoninicio.create();
     }
 }

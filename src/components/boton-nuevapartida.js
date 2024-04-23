@@ -19,11 +19,14 @@ export class BotonNuevaPartida
     this.boton = this.relatedScene.add.sprite(left, top, id).setInteractive();
     this.boton.setScale(scX, scY).setAngle(1).setDepth(Settings.depth.botones);
 
+    let text_size = 24;
+    if (id.includes('settings')) text_size = 20;
+
     this.txt = new Textos(this.relatedScene, {
       x: left,
       y: top,
       txt: texto,
-      size: 24, color: '#ff1', style: 'bold',
+      size: text_size, color: '#ff1', style: 'bold',
       stroke: '#1bd', sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
       bool1: false, bool2: true, origin: [0.5, 0.5],

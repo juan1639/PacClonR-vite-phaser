@@ -10,7 +10,7 @@ export class Settings
     static config =
     {
         vel: 2
-    }
+    };
 
     static screen =
     {
@@ -248,7 +248,7 @@ export class Settings
         return Settings.txtScore;
     }
 
-    static getInvisible()
+    static isInvisible()
     {
         return Settings.pacman.invisible;
     }
@@ -298,7 +298,7 @@ export class Settings
     {
         Settings.config.vel = vel;
     }
-    
+
     static setFps60(bool)
     {
         Settings.fps.fps60 = bool;
@@ -331,6 +331,11 @@ export class Settings
     static isPacmanDies(bool)
     {
         Settings.pausa.pacmanDies = bool;
+    }
+
+    static setInvisible(bool)
+    {
+        Settings.pacman.invisible = bool;
     }
 
     static isPausaComeFantasma(bool)

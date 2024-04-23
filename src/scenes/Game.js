@@ -42,6 +42,9 @@ export class Game extends Scene
 
     this.instanciar_mobileControls();
     this.instanciar_marcadores();
+
+    console.log(`vel:${Settings.getConfig().vel}`);
+    console.log(`invulnerability:${Settings.isInvisible()}`);
   }
 
   preload() {}

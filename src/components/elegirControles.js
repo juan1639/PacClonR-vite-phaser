@@ -49,9 +49,17 @@ export class ElegirControles
       {
         this.relatedScene.radioFps.forEach(radio => radio.get().setFrame(0));
       }
-      else
+      else if (id.includes('control'))
       {
         this.relatedScene.radiobuttons.forEach(radio => radio.get().setFrame(0));
+      }
+      else if (id.includes('velocity'))
+      {
+        this.relatedScene.radioSpeed.forEach(speed => speed.get().setFrame(0));
+      }
+      else if (id.includes('mode'))
+      {
+        this.relatedScene.radioInvulnerability.forEach(inv => inv.get().setFrame(0));
       }
 
       this.radiobutton.setFrame(1);
@@ -67,7 +75,7 @@ export class ElegirControles
           Settings.setFps60(true);
         }
       }
-      else
+      else if (id.includes('control'))
       {
         Object.keys(Settings.controlElegido).forEach(control => {
           Settings.controlElegido[control] = false;
@@ -75,6 +83,21 @@ export class ElegirControles
   
         Settings.controlElegido[this.radiobutton.getData('id')] = true;
         console.log(Settings.controlElegido.mobile, Settings.controlElegido.keyboard);
+      }
+      else if (id.includes('velocity'))
+      {
+        Settings.setConfigVel(parseInt(id.slice(0, 1)));
+      }
+      else if (id.includes('mode'))
+      {
+        if (!Settings.isInvisible())
+        {
+          Settings.setInvisible(true);
+        }
+        else
+        {
+          Settings.setInvisible(false);
+        }
       }
 
       console.log(Settings.isFps60());
