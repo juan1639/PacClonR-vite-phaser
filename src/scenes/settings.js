@@ -7,6 +7,11 @@ export class Settings
         keyboard: true
     };
 
+    static config =
+    {
+        vel: 2
+    }
+
     static screen =
     {
         width: 864,
@@ -168,6 +173,11 @@ export class Settings
     };
 
     // ------- Getters ---------
+    static getConfig()
+    {
+        return Settings.config;
+    }
+
     static isFps60()
     {
         return Settings.fps.fps60;
@@ -284,6 +294,11 @@ export class Settings
     }
 
     // ------- Setters ---------
+    static setConfigVel(vel)
+    {
+        Settings.config.vel = vel;
+    }
+    
     static setFps60(bool)
     {
         Settings.fps.fps60 = bool;

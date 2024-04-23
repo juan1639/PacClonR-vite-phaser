@@ -159,8 +159,8 @@ export class Fantasma
             
             if (!(Laberinto.check_colision(x, y)))
             {
-                fant.x += direcc[fant.getData('direccion')][0] * Fantasma.VEL;
-                fant.y += direcc[fant.getData('direccion')][1] * Fantasma.VEL;
+                fant.x += direcc[fant.getData('direccion')][0] * (Fantasma.VEL * Settings.getConfig().vel);
+                fant.y += direcc[fant.getData('direccion')][1] * (Fantasma.VEL * Settings.getConfig().vel);
 
                 // Escapatorias
                 const nivel = Settings.getNivel();

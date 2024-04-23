@@ -187,7 +187,7 @@ export class Game extends Scene
   set_colliders()
   {
     // Collide Jugador-Laberinto
-    this.physics.add.collider(this.jugador.get(), this.laberinto.get(), colliderJugadorLaberinto, null, this);
+    // this.physics.add.collider(this.jugador.get(), this.laberinto.get(), colliderJugadorLaberinto, null, this);
     
     // Collide Jugador-Puntitos
     this.physics.add.collider(this.jugador.get(), this.puntitos.get(), colliderJugadorPuntitos, null, this);

@@ -1,19 +1,8 @@
-import { Settings } from '../scenes/settings.js';
 import { matrixLevels } from '../scenes/matrixLevels.js';
-import { Laberinto } from "./laberinto.js";
+import { Settings } from '../scenes/settings.js';
 
 export class Jugador
 {
-    static VEL = 2;
-
-    // [velX, velY, addWidth, addHeight, angle]
-    static INFO_DIRECCION = {
-        left: [-1, 0, 0, 0, 180],
-        right: [1, 0, 1, 0, 0],
-        up: [0, -1, 0, 0, 270],
-        down: [0, 1, 0, 1, 90]
-    };
-
     constructor(scene)
     {
         this.relatedScene = scene;
@@ -32,14 +21,12 @@ export class Jugador
         );
 
         this.jugador.setDepth(Settings.depth.jugador).setAngle(0);
-        this.jugador.setScale((Settings.tileXY.y * scale) / 64); // 64x64px pacman ssheet
-
+        this.jugador.setScale(((Settings.tileXY.y * scale) / 64) * 0.9); // 64x64px pacman ssheet
+        
         this.jugador.setData('intento-giro', 'right');
+        this.establecer_velocidad(true);
 
-        this.intentoGiro = 'right';
-        this.direccion = this.intentoGiro;
-
-        this.relatedScene.anims.remove('le-ri-up-do');
+        // this.relatedScene.anims.remove('le-ri-up-do');
 
         this.relatedScene.anims.create(
         {
@@ -68,78 +55,98 @@ export class Jugador
     {
         if (!this.jugador.body.enable || Settings.isPausaComeFantasma() || Settings.isNivelSuperado()) return;
 
-        const configVel = Settings.getConfig().vel;
         const scale = Settings.getScaleGame();
-        const direcc = Jugador.INFO_DIRECCION;
 
-        Object.keys(Jugador.INFO_DIRECCION).forEach(tecla =>
+        const direcc = Settings.pacman.direccion;
+
+        Object.keys(direcc).forEach(tecla =>
         {
-            
-            if (this.controles[tecla].isDown) this.intentoGiro = tecla;
+            if (this.controles[tecla].isDown) this.jugador.setData('intento-giro', tecla);
 
             if (Settings.controlElegido.mobile)
             {
                 if (this.relatedScene.crucetaup.isDown)
                 {
-                    this.intentoGiro = 'up';
+                    this.jugador.setData('intento-giro', 'up');
 
                 } else if (this.relatedScene.crucetado.isDown)
                 {
-                    this.intentoGiro = 'down';
+                    this.jugador.setData('intento-giro', 'down');
 
                 } else if (this.relatedScene.crucetale.isDown)
                 {
-                    this.intentoGiro = 'left';
+                    this.jugador.setData('intento-giro', 'left');
 
                 } else if (this.relatedScene.crucetari.isDown)
                 {
-                    this.intentoGiro = 'right';
+                    this.jugador.setData('intento-giro', 'right');
                 }
             }
         });
 
-        if (this.jugador.x % (Settings.tileXY.x * scale) === 0 && this.jugador.y % (Settings.tileXY.y * scale) === 0)
+        const intentoGiro = Settings.pacman.direccion[this.jugador.getData('intento-giro')][3];
+
+        if (!this.jugador.body.touching[intentoGiro])
         {
-            const x = Math.floor(this.jugador.x / (Settings.tileXY.x * scale)) + direcc[this.intentoGiro][0];
-            const y = Math.floor(this.jugador.y / (Settings.tileXY.y * scale)) + direcc[this.intentoGiro][1];
-            
-            // *********** > 12 = No wall **********
-            if (!Laberinto.check_colision(x, y))
-            {
-                this.direccion = this.intentoGiro;
-                this.jugador.setAngle(direcc[this.direccion][4]);
-            }
+            this.establecer_velocidad(false);
         }
 
-        const ancho = direcc[this.direccion][2] * ((Settings.tileXY.x * scale) - (Jugador.VEL * configVel));
-        const alto = direcc[this.direccion][3] * ((Settings.tileXY.y * scale) - (Jugador.VEL * configVel));
-        const offsetX = direcc[this.direccion][0] * (Jugador.VEL * configVel);
-        const offsetY = direcc[this.direccion][1] * (Jugador.VEL * configVel);
-        
-        const x = Math.floor((this.jugador.x + offsetX + ancho) / (Settings.tileXY.x * scale));
-        const y = Math.floor((this.jugador.y + offsetY + alto) / (Settings.tileXY.y * scale));
-        
-        // *********** > 12 = No wall **********
-        if (!Laberinto.check_colision(x, y))
+        // Escapatorias
+        const nivel = Settings.getNivel();
+
+        if (this.jugador.x > matrixLevels.array_levels[nivel][0].length * (Settings.tileXY.x * scale) && direcc[this.jugador.getData('direccion')][0] > 0)
         {
-            this.jugador.x += direcc[this.direccion][0] * (Jugador.VEL * configVel);
-            this.jugador.y += direcc[this.direccion][1] * (Jugador.VEL * configVel);
-
-            // ******* Escapatorias *********
-            const nivel = Settings.getNivel();
-
-            if (this.jugador.x > matrixLevels.array_levels[nivel][0].length * (Settings.tileXY.x * scale) && direcc[this.direccion][0] > 0)
-            {
-                this.jugador.x = -(Settings.tileXY.x * scale);
-            }
-
-            if (this.jugador.x < -(Settings.tileXY.x * scale) && direcc[this.direccion][0] < 0)
-            {
-                this.jugador.x = (matrixLevels.array_levels[nivel][0].length - 1) * (Settings.tileXY.x * scale);
-            }
+            this.jugador.x = -(Settings.tileXY.x * scale);
         }
 
+        if (this.jugador.x < -Settings.tileXY.x && direcc[this.jugador.getData('direccion')][0] < 0)
+        {
+            this.jugador.x = (matrixLevels.array_levels[nivel][0].length - 1) * (Settings.tileXY.x * scale);
+        }
+
+        // console.log(Settings.pacman.arrayAcumDir.length);
+        // console.log(this.jugador.getData('direccion'));
         // console.log(this.jugador.x, this.jugador.y);
+    }
+
+    establecer_velocidad(firstTime)
+    {
+        const direcc = Settings.pacman.direccion;
+
+        this.jugador.setData('direccion', this.jugador.getData('intento-giro'));
+        this.jugador.setAngle(direcc[this.jugador.getData('direccion')][2]);
+        Settings.pacman.arrayAcumDir.unshift(this.jugador.getData('direccion'));
+
+        if (!firstTime) this.arrayNoMore50();
+
+        if (!firstTime)
+        {
+            const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+            const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+            this.jugador.setVelocityX(velX);
+            this.jugador.setVelocityY(velY);
+        }
+        else
+        {
+            this.relatedScene.time.delayedCall(Settings.getPausaInicialDuracion(), () =>
+            {
+                const velX = direcc[this.jugador.getData('direccion')][0] * Settings.pacman.velocity;
+                const velY = direcc[this.jugador.getData('direccion')][1] * Settings.pacman.velocity;
+                this.jugador.setVelocityX(velX);
+                this.jugador.setVelocityY(velY);
+            });
+        }
+    }
+
+    arrayNoMore50()
+    {
+        const max = Settings.pacman.maxArrayAcumDir;
+
+        if (Settings.pacman.arrayAcumDir.length > max + 2)
+        {
+            const borrar = Settings.pacman.arrayAcumDir.length - max;
+            Settings.pacman.arrayAcumDir.splice(max, borrar);
+        }
     }
 
     get()
