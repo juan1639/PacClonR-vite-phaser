@@ -58,7 +58,7 @@ export class Settings
         },
         nivelSuperado: {
             activa: false,
-            duracion: 3000
+            duracion: 3500
         }
     };
 
@@ -66,7 +66,7 @@ export class Settings
     {
         iniX: 9,
         iniY: 4,
-        vel: 4,
+        vel: 2,
         velocity: 125,
         invisible: false,
         // [velX, velY, angle, body.touching...]
@@ -76,15 +76,15 @@ export class Settings
             up: [0, -1, 270, 'up'],
             down: [0, 1, 90, 'down']
         },
-        arrayAcumDir: [],
-        maxArrayAcumDir: 50
+        // arrayAcumDir: [],
+        // maxArrayAcumDir: 50
     };
 
     static pacmanPregame =
     {
         iniX: -4,
         iniY: 2,
-        vel: 4
+        vel: 2
     };
 
     static fantasmasIniXY =
@@ -172,7 +172,9 @@ export class Settings
         key: null
     };
 
-    // ------- Getters ---------
+    // ---------------------------------------------------
+    //  Getters
+    // ---------------------------------------------------
     static getConfig()
     {
         return Settings.config;
@@ -215,12 +217,12 @@ export class Settings
 
     static isPausaComeFantasma()
     {
-        return Settings.pausa.comeFantasma;
+        return Settings.pausa.comeFantasma.activa;
     }
 
     static isNivelSuperado()
     {
-        return Settings.pausa.nivelSuperado;
+        return Settings.pausa.nivelSuperado.activa;
     }
 
     static getPuntos()
@@ -293,7 +295,9 @@ export class Settings
         return Settings.cameraScores;
     }
 
-    // ------- Setters ---------
+    // ---------------------------------------------------
+    //  Setters
+    // ---------------------------------------------------
     static setConfigVel(vel)
     {
         Settings.config.vel = vel;
@@ -310,7 +314,7 @@ export class Settings
 
     static setNivelSuperado(bool)
     {
-        Settings.pausa.nivelSuperado = bool;
+        Settings.pausa.nivelSuperado.activa = bool;
     }
 
     static setGameOver(bool)
@@ -338,12 +342,12 @@ export class Settings
         Settings.pacman.invisible = bool;
     }
 
-    static isPausaComeFantasma(bool)
+    static setPausaComeFantasma(bool)
     {
-        Settings.pausa.comeFantasma = bool;
+        Settings.pausa.comeFantasma.activa = bool;
     }
 
-    static isNivelSuperado(bool)
+    static setNivelSuperado(bool)
     {
         Settings.pausa.nivelSuperado = bool;
     }

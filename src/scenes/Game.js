@@ -114,6 +114,22 @@ export class Game extends Scene
       this.fantasmas.update();
       this.cerezas.update();
     }
+
+    if (this.puntitos.get().countActive() <= 0 && !Settings.isNivelSuperado())
+    {
+      // if (this.sonido_fantasmasScary.isPlaying) this.sonido_fantasmasScary.pause();
+
+      console.log('nivel superado');
+      Settings.setNivelSuperado(true);
+      Settings.setFantasmasScary(false);
+      // this.texto_enhorabuena();
+
+      this.time.delayedCall(Settings.pausa.nivelSuperado.duracion, () =>
+      {
+        Settings.setNivelSuperado(false);
+        this.scene.start('congratulations');
+      });
+    }
   }
 
   set_pausaInicial(tiempo)

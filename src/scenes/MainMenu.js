@@ -1,7 +1,8 @@
 import { Scene } from 'phaser';
-// import { JugadorPreGame } from '../components/jugador2.js';
+import { JugadorPreGame } from '../components/jugador2.js';
+import { FantasmaPreGame } from '../components/fantasma.js';
 import { Textos } from '../components/textos.js';
-import { play_sonidos } from '../functions/functions.js';
+import { play_sonidos, particulas } from '../functions/functions.js';
 import { BotonNuevaPartida } from '../components/boton-nuevapartida.js';
 import { Settings } from './settings.js';
 
@@ -16,13 +17,7 @@ export class MainMenu extends Scene
     {
         this.intermision = this.sound.add('pacman-intermision');
 
-        /* this.jugador = new JugadorPreGame(this, {
-            // x: Math.floor(this.sys.game.config.width / 2),
-            x: 0,
-            y: Math.floor(this.sys.game.config.height / 2),
-            oriX: Settings.jugador.oriX,
-            oriY: Settings.jugador.oriY,
-        }); */
+        this.jugador = new JugadorPreGame(this);
 
         this.botoninicio = new BotonNuevaPartida(this, {
             left: Math.floor(this.sys.game.config.width / 2),
@@ -42,6 +37,8 @@ export class MainMenu extends Scene
             bool1: false, bool2: true, origin: [0.5, 0.5],
             elastic: Math.floor(this.sys.game.config.height / 4), dura: 3000
         });
+
+        this.fantasmaspregame = new FantasmaPreGame(this);
     }
 
     preload() {}
@@ -52,16 +49,23 @@ export class MainMenu extends Scene
 
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
 
-        // this.jugador.create();
+        this.jugador.create(-150, Math.floor(this.sys.game.config.height / 1.7));
+        this.fantasmaspregame.create();
 
         this.txt.create();
 
         const basedOn = this.add.text(
-            Math.floor(this.sys.game.config.width / 3.6),
+            Math.floor(this.sys.game.config.width / 3.4),
             Math.floor(this.sys.game.config.height / 1.04),
             'Based on classic arcade game Pacman of 1980',
             {fontSize: '16px', color: '#9ff', align: 'justify', fontFamily: 'Arial'}
         );
+
+        const coorXY = [
+            Math.floor(this.sys.game.config.width / 2),
+            Math.floor(this.sys.game.config.height / 20),
+            Math.floor(this.sys.game.config.height / 5)
+        ];
 
         const timeline = this.add.timeline([
             {
@@ -69,6 +73,16 @@ export class MainMenu extends Scene
                 run: () =>
                 {
                     this.botoninicio.create('PreGame', false);
+
+                    particulas(
+                        coorXY[0], coorXY[2] + 50,
+                        'particula1',
+                        {min: 60, max: 120},
+                        {min: 2500, max: 3000},
+                        {start: 0.2, end: 0},
+                        0xffcc11,
+                        null, false, this
+                    );    
                 }
             }
         ]);

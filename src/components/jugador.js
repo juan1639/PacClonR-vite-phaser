@@ -248,13 +248,25 @@ export class JugadorPreGame
         this.relatedScene.tweens.add(
         {
             targets: this.jugadorpregame,
-            x: this.relatedScene.sys.game.config.width + Settings.tileXY.x * 2,
+            x: this.relatedScene.sys.game.config.width + 150,
             yoyo: true,
             duration: duracionTotal,
             repeat: -1
         });
 
-        setInterval(() => {this.jugadorpregame.setFlipX(!this.jugadorpregame.flipX)}, duracionTotal);
+        const infiniteLoop = this.add.timeline([
+            {
+                at: duracionTotal,
+                run: () =>
+                {
+                    this.jugadorpregame.setFlipX(!this.jugadorpregame.flipX);
+                }
+            }
+        ]);
+        
+        infiniteLoop.repeat(-1).play();
+
+        // setInterval(() => {this.jugadorpregame.setFlipX(!this.jugadorpregame.flipX)}, duracionTotal);
 
         console.log(this.jugadorpregame);
     }

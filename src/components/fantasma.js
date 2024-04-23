@@ -82,7 +82,7 @@ export class Fantasma
         {
             for (let i = 0; i < 4; i ++) {
 
-                // this.relatedScene.anims.remove(`anim${index}${i}`);
+                this.relatedScene.anims.remove(`anim${index}${i}`);
 
                 this.relatedScene.anims.create({
                     key: `anim${index}${i}`, 
@@ -286,20 +286,22 @@ export class FantasmaPreGame
 
     create()
     {
+        const scale = Settings.getScaleGame();
+
         this.fantasmaspregame = this.relatedScene.physics.add.group(
         {
             key: ['fantanim0', 'fantanim1', 'fantanim2', 'fantanim3'],
             frameQuantity: 1,
             setXY: {
-                x: (Settings.fantasmasIniXY.azul[0] - 12) * Settings.tileXY.x,
-                y: (Settings.fantasmasIniXY.azul[1] - 7) * Settings.tileXY.y,
-                stepX: Settings.tileXY.x
+                x: (Settings.fantasmasIniXY.azul[0] - 14) * (Settings.tileXY.x * scale),
+                y: (Settings.fantasmasIniXY.azul[1] - 5) * (Settings.tileXY.y * scale),
+                stepX: Settings.tileXY.x * scale
             }
         });
 
         this.fantasmaspregame.children.iterate((fant =>
         {
-            fant.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false);
+            fant.setAngle(0).setScale(scale).setFrame(0).setFlipX(false);
         }));
 
         this.fantasmaspregame.children.iterate((fant, index) =>
@@ -323,7 +325,7 @@ export class FantasmaPreGame
             this.relatedScene.tweens.add(
             {
                 targets: fant,
-                x: this.relatedScene.sys.game.config.width + Settings.tileXY.x * 2,
+                x: this.relatedScene.sys.game.config.width + 150,
                 yoyo: true,
                 duration: duracionTotal,
                 repeat: -1
