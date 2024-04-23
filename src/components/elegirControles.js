@@ -77,11 +77,12 @@ export class ElegirControles
       }
       else if (id.includes('control'))
       {
-        Object.keys(Settings.controlElegido).forEach(control => {
+        Object.keys(Settings.controlElegido).forEach(control =>
+        {
           Settings.controlElegido[control] = false;
         });
   
-        Settings.controlElegido[this.radiobutton.getData('id')] = true;
+        Settings.controlElegido[this.radiobutton.getData('id').slice(0, -8)] = true;
         console.log(Settings.controlElegido.mobile, Settings.controlElegido.keyboard);
       }
       else if (id.includes('velocity'))
