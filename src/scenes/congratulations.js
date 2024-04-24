@@ -14,7 +14,7 @@ export class Congratulations extends Phaser.Scene
   {
     this.botoninicio = new BotonNuevaPartida(this, {
       left: Math.floor(this.sys.game.config.width / 2),
-      top: Math.floor(this.sys.game.config.height / 1.5),
+      top: Math.floor(this.sys.game.config.height / 1.3),
       id: 'boton-nueva-partida',
       scX: 0.6, scY: 0.5, angle: 1, originX: 0.5, originY: 0.5,
       texto: ' Continue ', nextScene: 'Game'
@@ -31,6 +31,32 @@ export class Congratulations extends Phaser.Scene
     this.incremento_nivel = Settings.getNivel() + 1;
     
     this.add.image(0, 0, 'fondo-pacman').setScale(boundsXY[0], boundsXY[1]).setDepth(Settings.depth.fondo).setOrigin(0, 0);
+
+    const fantRnd = Phaser.Math.Between(0, 3);
+
+    this.fantasmon = this.add.sprite(
+      -400, Math.floor(this.sys.game.config.height / 1.8),
+      `fantasmon${fantRnd}`
+    );
+
+    this.fantasmon.setDepth(Settings.depth.fantasmon).setOrigin(0.5, 0.5).setScale(0.35).setFlipX(false);
+    this.fantasmon.setData('vel', 2);
+
+    if (this.incremento_nivel <= 2)
+    {
+      for (let i = 0; i < 4; i ++)
+      {
+        this.anims.create({
+          key: `anim-fantasmon${i}`, 
+          frames: this.anims.generateFrameNumbers(`fantasmon${i}`, {start: 0, end: 1}),
+          frameRate: 15,
+          yoyo: true,
+          repeat: -1
+        });
+      }
+    }
+
+    this.fantasmon.anims.play(`anim-fantasmon${fantRnd}`);
 
     this.txt = new Textos(this, {
       x: Math.floor(this.sys.game.config.width / 2),
@@ -74,5 +100,27 @@ export class Congratulations extends Phaser.Scene
     play_sonidos(this.intermision, false, 0.8);
 
     console.log(this.txt);
+  }
+
+  update()
+  {    
+    this.fantasmon.x += this.fantasmon.getData('vel');
+
+    if (
+      (this.fantasmon.x > this.sys.game.config.width + 400 && this.fantasmon.getData('vel') > 0) ||
+      (this.fantasmon.x < -400 && this.fantasmon.getData('vel') < 0)
+    )
+    {
+      this.fantasmon.setData('vel', -this.fantasmon.getData('vel'));
+
+      if (!this.fantasmon.flipX)
+      {
+        this.fantasmon.setFlipX(true);
+      }
+      else
+      {
+        this.fantasmon.setFlipX(false);
+      }
+    }
   }
 }

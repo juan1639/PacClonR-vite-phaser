@@ -153,6 +153,7 @@ export class Settings
         jugador: 400,
         fantasmas: 500,
         efectos: 600,
+        fantasmon: 620,
         botones: 650,
         marcadores: 700,
         controles: 800,

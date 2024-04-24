@@ -50,12 +50,12 @@ export class Jugador
             repeat: -1
         });
 
-        this.relatedScene.anims.create(
+        /* this.relatedScene.anims.create(
         {
             key: 'turn',
             frames: [{key: 'pacman', frame: 0}],
             frameRate: 20,
-        });
+        }); */
 
         this.jugador.anims.play('le-ri-up-do', true);
 
@@ -117,7 +117,7 @@ export class Jugador
         
         const x = Math.floor((this.jugador.x + offsetX + ancho) / (Settings.tileXY.x * scale));
         const y = Math.floor((this.jugador.y + offsetY + alto) / (Settings.tileXY.y * scale));
-        
+
         if (!Laberinto.check_colision(x, y))
         {
             this.jugador.x += direcc[this.direccion][0] * (Jugador.VEL * configVel);
