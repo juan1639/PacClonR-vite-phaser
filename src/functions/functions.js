@@ -43,106 +43,114 @@ function colliderJugadorPuntitos(jugador, puntito)
   play_sonidos(this.sonido_waka, false, 0.9);
 }
 
-function colisionJugadorVsEnemigo(enemigo, jugador)
+function overlapJugadorFantasmas(jugador, fantasma)
 {
   console.log('colision...jugador-enemigo');
-  console.log(jugador);
+  console.log(jugador, fantasma);
+  
+  const scale = Settings.getScaleGame();
 
-  draw_explosionTimeout(this, jugador);
-
-  particulas(
-    jugador.x, jugador.y, 'particula-tint',
-    {min: 120, max: 180},
-    {min: Settings.pausas.duracionExplosion.enemigo, max: Settings.pausas.duracionExplosion.enemigo + 300},
-    {start: 0.6, end: 0},
-    // 0xffffff,
-    // new Phaser.Display.Color(255, Phaser.Math.Between(50, 240), 0).color,
-    jugador.tint,
-    null, false, this
-  );
-
-  particulas(
-    enemigo.x, enemigo.y, 'particula-tint',
-    {min: 120, max: 200},
-    {min: 1500, max: 2000},
-    {start: 0.8, end: 0},
-    // 0xffffff,
-    new Phaser.Display.Color(Phaser.Math.Between(0, 125), Phaser.Math.Between(125, 255), 0).color,
-    null, false, this
-  );
-
-  if (Settings.getVidas() > 0)
+  if (!Settings.isFantasmasScary())
   {
-    setTimeout(() =>
+    play_sonidos(this.sonido_jugadorDies, false, 0.7);
+
+    this.jugadordies.create(jugador.x, jugador.y);
+    jugador.disableBody(true, true);
+
+    const timeline = this.add.timeline([
     {
-      enemigo.setActive(true).setVisible(true).setAlpha(0.1);
-      enemigo.enableBody(true, Settings.jugador.posIniX, Settings.jugador.posIniY, true, true);
-
-      this.tweens.add(
-      {
-        targets: enemigo,
-        alpha: 1,
-        duration: Settings.pausas.invisible
-      });
-    }, Settings.pausas.revivir);
-  }
-
-  // restar_vida();
-  // if (Settings.getVidas() >= 0) this.jugadorSV.get().getChildren()[Settings.getVidas()].setVisible(false);
-  
-  suma_puntos(jugador);
-  this.marcador.update(0, Settings.getPuntos());
-  
-  jugador.setActive(false).setVisible(false).disableBody(true, true);
-  enemigo.setActive(false).setVisible(false).disableBody(true, true);
-}
-
-function excepcionJugadorVsEnemigo(enemigo, jugador)
-{
-  if (enemigo.alpha < 1) return false;
-  return true;
-}
-
-function countDownBonus(scene)
-{
-  const txtbonus = new Textos(scene, {
-    x: scene.jugador.get().x,
-    y: scene.jugador.get().y + 90,
-    txt: Settings.getBonus3JewelsBonus(),
-    size: 70, color: '#ffa', style: 'bold',
-    stroke: '#af1', sizeStroke: 16,
-    shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
-    bool1: false, bool2: true, origin: [0.5, 0.5],
-    elastic: false, dura: 0
-  });
-  
-  txtbonus.create();
-  txtbonus.get().setDepth(Settings.depth.textos);
-
-  scene.time.delayedCall(Settings.pausas.bonus3Jewels.duracion, () => txtbonus.get().setVisible(false));
-
-  const decBonus = Settings.pausas.bonus3Jewels.decBonusCountDown;
-  const repetir = Math.floor(Settings.getBonus3JewelsBonus() / decBonus) - 1;
-
-  const playerClock = scene.add.timeline([
-    {
-      at: 100, // 0.1sg --> dec time
+      at: Settings.pausa.pacmanDies.duracion,
       run: () =>
       {
-        // console.log('sg');
-        const decBonus = Settings.pausas.bonus3Jewels.decBonusCountDown;
-        Settings.setBonus3JewelsBonus(Settings.getBonus3JewelsBonus() - decBonus);
+        this.jugadordies.get().disableBody(true, true);
+        
+        this.jugador.get().enableBody(
+            true,
+            Settings.pacman.iniX * (Settings.tileXY.x * scale),
+            Settings.pacman.iniY * (Settings.tileXY.x * scale),
+            true, true
+        );
 
-        txtbonus.get().setText(Settings.getBonus3JewelsBonus());
+        this.jugador.intentoGiro = 'right';
+        this.jugador.direccion = 'right';
 
-        Settings.setPuntos(Settings.getPuntos() + decBonus);
-        scene.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
-        play_sonidos(scene.sonido_numkey, false, 0.8);
+        restar_vida();
+
+        if (Settings.getVidas() < 0)
+        {
+          Settings.setGameOver(true);
+          this.jugador.get().setVisible(false);
+          this.gameover.create(this.jugador.get().x, this.jugador.get().y);
+          // this.cameras.main.startFollow(this.gameover.get());
+        }
+
+        this.jugadorshowvidas.get().children.iterate((vida, index) =>
+        {
+          if (index === Settings.getVidas()) vida.setVisible(false);
+        });
+
+        this.fantasmas.get().children.iterate((fant, index) =>
+        {
+          if (Settings.isGameOver())
+          {
+              fant.setVisible(false);
+
+          } else
+          {
+            fant.setX(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][0] * (Settings.tileXY.x * scale));
+            fant.setY(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][1] * (Settings.tileXY.y * scale));
+          }
+        });
       }
-    }
-  ]);
+    }]);
 
-  playerClock.repeat(repetir).play();
+    timeline.play();
+  }
+  else
+  {
+    play_sonidos(this.sonido_eatingGhost, false, 0.9);
+
+    fantasma.setVisible(false);
+    this.ojos.get().getChildren()[fantasma.getData('id')].setVisible(true);
+    Settings.setPausaComeFantasma(true);
+
+    this.time.delayedCall(Settings.pausa.comeFantasma.duracion, () =>
+    {
+      Settings.setPausaComeFantasma(false);
+    });
+
+    const puntos = Settings.getFantasmasBonusInc().puntos;
+    const color = Settings.getFantasmasBonusInc().color;
+    const contador = Settings.getFantasmasBonusInc().contador;
+    const duracion = Settings.getFantasmasBonusInc().duracion;
+
+    this.txt_bonusfantasmas = new Textos(this,
+    {
+      x: jugador.x, y: jugador.y,
+      txt: puntos[contador].toString(),
+      size: 40, color: '#ff7', style: 'bold',
+      stroke: color[contador], sizeStroke: 16,
+      shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
+      bool1: false, bool2: true, origin: [0.5, 0.5],
+      elastic: jugador.y - (Settings.tileXY.y * scale), dura: 2000
+    });
+    
+    this.txt_bonusfantasmas.create();
+    this.txt_bonusfantasmas.get().setDepth(Settings.depth.textos).setAlpha(1);
+
+    const bonus = Settings.getPuntos() + puntos[contador];
+    Settings.setPuntos(bonus);
+    this.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
+
+    Settings.setFantasmasBonusInc(contador + 1);
+    if (contador >= 4) Settings.setFantasmasBonusInc(0);
+  }
+}
+
+function exceptoNotVisible(jugador, fantasma)
+{
+  if (!jugador.visible || Settings.isInvisible()) return false;
+  return true;
 }
 
 function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene)
@@ -210,7 +218,8 @@ function play_sonidos(id, loop, volumen)
 export {
   colliderJugadorLaberinto,
   colliderJugadorPuntitos,
+  overlapJugadorFantasmas,
+  exceptoNotVisible,
   particulas,
-  countDownBonus,
   play_sonidos
 };

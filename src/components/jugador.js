@@ -156,17 +156,38 @@ export class JugadorDies
 
     create(x, y)
     {
-        this.jugadordies = this.relatedScene.physics.add.sprite(x, y, 'pacman');
-
-        this.jugadordies.setFrame(4);
-
-        this.relatedScene.tweens.add(
+        if (Settings.getVidas() >= 0)
         {
-            targets: this.jugadordies,
-            angle: 359,
-            duration: 1000,
-            repeat: 2
-        });
+            this.jugadordies = this.relatedScene.physics.add.sprite(x, y, 'pacman-dies', 0);
+            this.jugadordies.setScale(Settings.getScaleGame());
+
+            if (Settings.getVidas() === 3)
+            {
+                this.relatedScene.anims.create(
+                {
+                    key: 'dies-anim', 
+                    frames: this.relatedScene.anims.generateFrameNumbers('pacman-dies', {start: 0, end: 11}),
+                    frameRate: 9,
+                    hideOnComplete: true
+                });
+            }
+
+            this.jugadordies.anims.play('dies-anim', true);
+        }
+        else
+        {
+            this.jugadordies = this.relatedScene.physics.add.sprite(x, y, 'pacman');
+
+            this.jugadordies.setFrame(4);
+
+            this.relatedScene.tweens.add(
+            {
+                targets: this.jugadordies,
+                angle: 359,
+                duration: 1000,
+                repeat: 2
+            });
+        }
 
         console.log(this.jugadordies);
     }

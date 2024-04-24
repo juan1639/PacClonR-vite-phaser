@@ -70,6 +70,7 @@ export class Preloader extends Scene
         this.load.image('tile-pacman-marron', './img/tile_pacmanMarron.png');
 
         this.load.spritesheet('pacman', './img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('pacman-dies', './img/pacmanDies-ssheet.png', {frameWidth: 16, frameHeight: 16});
         this.load.spritesheet('frutas', './img/frutas-ssheet.png', {frameWidth: 16, frameHeight: 16});
         this.load.spritesheet('fantasmas', './img/fantasmas-ssheet.png', {frameWidth: 16, frameHeight: 16});
 

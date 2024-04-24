@@ -17,6 +17,8 @@ import { BotonFullScreen, BotonEsc, CrucetaControl } from '../components/boton-n
 
 import {
   colliderJugadorPuntitos,
+  overlapJugadorFantasmas,
+  exceptoNotVisible,
   play_sonidos
 } from '../functions/functions.js';
 
@@ -38,6 +40,7 @@ export class Game extends Scene
     this.puntitos = new Puntitos(this);
     this.puntitosgordos = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
+    this.jugadordies = new JugadorDies(this);
     this.fantasmas = new Fantasma(this);
     this.cerezas = new Cerezas(this);
 
@@ -220,7 +223,7 @@ export class Game extends Scene
     // this.physics.add.collider(this.jugador.get(), this.fruta.get(), colliderJugadorFruta, null, this);
 
     // Overlap Jugador-Fantasmas
-    // this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), overlapJugadorFantasmas, exceptoNotVisible, this);
+    this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), overlapJugadorFantasmas, exceptoNotVisible, this);
   }
 
   hideMobileControls()
@@ -347,5 +350,7 @@ export class Game extends Scene
     this.sonido_key = this.sound.add('key');
     this.sonido_numkey = this.sound.add('numkey');
     this.sonido_waka = this.sound.add('pacman-waka');
+    this.sonido_jugadorDies = this.sound.add('pacman-dies');
+    this.sonido_eatingGhost = this.sound.add('pacman-eating-ghost');
   }
 }
