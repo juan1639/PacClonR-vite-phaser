@@ -14,10 +14,8 @@ import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js
 import { Fantasma } from '../components/fantasma.js';
 import { Cerezas } from '../components/cerezas.js';
 import { BotonFullScreen, BotonEsc, CrucetaControl } from '../components/boton-nuevapartida.js';
-import { particulas } from '../functions/functions.js';
 
 import {
-  colliderJugadorLaberinto,
   colliderJugadorPuntitos,
   play_sonidos
 } from '../functions/functions.js';
@@ -33,7 +31,7 @@ export class Game extends Scene
   {
     Settings.setGameOver(false);
     Settings.setNivelSuperado(false);
-    
+
     this.set_pausaInicial(Settings.getPausaInicialDuracion());
 
     this.laberinto = new Laberinto(this);
@@ -118,7 +116,7 @@ export class Game extends Scene
       this.cerezas.update();
     }
 
-    if (this.puntitos.get().countActive() <= 130 && !Settings.isNivelSuperado())
+    if (this.puntitos.get().countActive() <= 0 && !Settings.isNivelSuperado())
     {
       // if (this.sonido_fantasmasScary.isPlaying) this.sonido_fantasmasScary.pause();
 
