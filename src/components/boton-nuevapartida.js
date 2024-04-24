@@ -34,7 +34,7 @@ export class BotonNuevaPartida
     });
 
     this.txt.create();
-    this.txt.get().setDepth(Settings.depth.botonesTxt).setAlpha(1).setScale(1);
+    this.txt.get().setDepth(Settings.depth.textos).setAlpha(1).setScale(1);
 
     this.boton.on('pointerover', () =>
     {
@@ -89,7 +89,7 @@ export class BotonFullScreen
 
     this.boton = this.relatedScene.add.image(x, y, id).setInteractive();
     this.boton.setOrigin(orX, orY).setScale(scX, scY);
-    this.boton.setAngle(ang).setFrame(0).setDepth(Settings.depth.botones);
+    this.boton.setAngle(ang).setFrame(0).setDepth(Settings.depth.marcadores);
     this.boton.setX(x).setY(y);
 
     this.boton.on('pointerover', () =>
@@ -146,7 +146,7 @@ export class BotonEsc
     });
 
     this.txt.create();
-    this.txt.get().setDepth(Settings.depth.botonesTxt).setAlpha(1).setScale(1);
+    this.txt.get().setDepth(Settings.depth.textos).setAlpha(1).setScale(1);
 
     this.boton.on('pointerover', () =>
     {

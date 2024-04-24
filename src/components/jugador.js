@@ -102,8 +102,7 @@ export class Jugador
         {
             const x = Math.floor(this.jugador.x / (Settings.tileXY.x * scale)) + direcc[this.intentoGiro][0];
             const y = Math.floor(this.jugador.y / (Settings.tileXY.y * scale)) + direcc[this.intentoGiro][1];
-            
-            // *********** > 12 = No wall **********
+
             if (!Laberinto.check_colision(x, y))
             {
                 this.direccion = this.intentoGiro;
@@ -119,7 +118,6 @@ export class Jugador
         const x = Math.floor((this.jugador.x + offsetX + ancho) / (Settings.tileXY.x * scale));
         const y = Math.floor((this.jugador.y + offsetY + alto) / (Settings.tileXY.y * scale));
         
-        // *********** > 12 = No wall **********
         if (!Laberinto.check_colision(x, y))
         {
             this.jugador.x += direcc[this.direccion][0] * (Jugador.VEL * configVel);

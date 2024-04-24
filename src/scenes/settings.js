@@ -105,7 +105,7 @@ export class Settings
     static fantasmasBonusInc =
     {
         puntos: [200, 400, 800, 1600],
-        color: ['#f91', '#f61', '#f41', '#f21'],
+        color: ['#fc1', '#f91', '#f51', '#f21'],
         contador: 0,
         duracion: 3200
     };
@@ -123,14 +123,6 @@ export class Settings
     static bonusCerezas = [
         300, 300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000
     ];
-
-    static coorCruceta =
-    {
-        xx: 60,
-        yy: 1400,
-        sizeX: 2.5,
-        sizeY: 2.1
-    };
 
     static cameraControles =
     {
@@ -161,6 +153,7 @@ export class Settings
         jugador: 400,
         fantasmas: 500,
         efectos: 600,
+        botones: 650,
         marcadores: 700,
         controles: 800,
         textos: 900
@@ -332,9 +325,9 @@ export class Settings
         Settings.pausa.inicial.activa = bool;
     }
 
-    static isPacmanDies(bool)
+    static setPacmanDies(bool)
     {
-        Settings.pausa.pacmanDies = bool;
+        Settings.pausa.pacmanDies.activa = bool;
     }
 
     static setInvisible(bool)
@@ -349,7 +342,7 @@ export class Settings
 
     static setNivelSuperado(bool)
     {
-        Settings.pausa.nivelSuperado = bool;
+        Settings.pausa.nivelSuperado.activa = bool;
     }
 
     static setPuntos(ptos)

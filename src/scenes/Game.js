@@ -32,7 +32,8 @@ export class Game extends Scene
   init()
   {
     Settings.setGameOver(false);
-
+    Settings.setNivelSuperado(false);
+    
     this.set_pausaInicial(Settings.getPausaInicialDuracion());
 
     this.laberinto = new Laberinto(this);
@@ -54,7 +55,9 @@ export class Game extends Scene
   create()
   {
     // 1.48 1.68 ajustar size fondo al scroll
-    this.add.image(0, 0, 'fondo-pacman').setScale(1.48, 1.68).setDepth(Settings.depth.fondo).setOrigin(0, 0);
+    const boundsXY = [Settings.screen.escBoundsX, Settings.screen.escBoundsY];
+
+    this.add.image(0, 0, 'fondo-pacman').setScale(boundsXY[0], boundsXY[1]).setDepth(Settings.depth.fondo).setOrigin(0, 0);
 
     this.set_sonidos();
     this.set_cameras();
@@ -115,19 +118,19 @@ export class Game extends Scene
       this.cerezas.update();
     }
 
-    if (this.puntitos.get().countActive() <= 0 && !Settings.isNivelSuperado())
+    if (this.puntitos.get().countActive() <= 130 && !Settings.isNivelSuperado())
     {
       // if (this.sonido_fantasmasScary.isPlaying) this.sonido_fantasmasScary.pause();
 
       console.log('nivel superado');
       Settings.setNivelSuperado(true);
       Settings.setFantasmasScary(false);
-      // this.texto_enhorabuena();
+      this.texto_enhorabuena();
 
       this.time.delayedCall(Settings.pausa.nivelSuperado.duracion, () =>
       {
         Settings.setNivelSuperado(false);
-        this.scene.start('congratulations');
+        this.scene.start('Congratulations');
       });
     }
   }
@@ -190,21 +193,18 @@ export class Game extends Scene
   texto_enhorabuena()
   {
     this.txtcongrats = new Textos(this, {
-      x: Math.floor(this.sys.game.config.width / 2), y: 0,
+      x: Math.floor(this.sys.game.config.width / 1.8), y: 0,
       txt: ' Congratulations! ',
       size: 70, color: '#ffa', style: 'bold',
       stroke: '#5f1', sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
       bool1: false, bool2: true, origin: [0.5, 0.5],
-      elastic: this.jugador.get().y - Settings.tileXY.y, dura: 3500
+      elastic: this.jugador.get().y - Settings.tileXY.y,
+      dura: Settings.pausa.nivelSuperado.duracion
     });
     
     this.txtcongrats.create();
     this.txtcongrats.get().setDepth(Settings.depth.textos);
-
-    this.tweens.add({
-      targets: this.txtcongrats.get(), alpha: 0, duration: Settings.pausas.txtCongrats.duracion
-    });
   }
 
   set_colliders()

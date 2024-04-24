@@ -10,6 +10,7 @@ export class Laberinto
 
     create()
     {
+        console.log(matrixLevels.array_levels.length);
         const nivel = Settings.getNivel();
 
         this.tile = this.relatedScene.physics.add.staticGroup();
