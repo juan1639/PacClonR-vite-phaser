@@ -143,7 +143,7 @@ export class Fantasma
                 {
                     perseguir = Phaser.Math.Between(0, 10);
 
-                    if (perseguir < 7 + Settings.getNivel())
+                    if (perseguir < Math.floor(7 + (Settings.getNivel() / 5)))
                     {
                         this.fantasma_persigue(fant);
                         this.set_flips(fant, index);
@@ -181,10 +181,11 @@ export class Fantasma
             {
                 perseguir = Phaser.Math.Between(0, 10);
 
-                if (perseguir < 5 + Settings.getNivel()) {
+                if (perseguir < Math.floor(6 + (Settings.getNivel() / 5)))
+                {
                     this.fantasma_persigue(fant);
-                    
-                } else
+                }
+                else
                 {
                     fant.setData('direccion', this.elegir_otra_direccion(direcc, fant));
                 }
@@ -206,10 +207,11 @@ export class Fantasma
 
         if (hor_ver < 5)
         {
-            if (fant.y < this.relatedScene.jugador.get().y) {
+            if (fant.y < this.relatedScene.jugador.get().y)
+            {
                 fant.setData('direccion', 'down');
-
-            } else
+            }
+            else
             {
                 fant.setData('direccion', 'up');
             }
@@ -219,8 +221,8 @@ export class Fantasma
             if (fant.x < this.relatedScene.jugador.get().x)
             {
                 fant.setData('direccion', 'right');
-
-            } else
+            }
+            else
             {
                 fant.setData('direccion', 'left');
             }
@@ -265,8 +267,8 @@ export class Fantasma
             {
                 fant.setVisible(true).clearTint();
                 this.relatedScene.ojos.get().getChildren()[fant.getData('id')].setVisible(false);
-            
-            } else
+            }
+            else
             {
                 fant.clearTint();
             }
