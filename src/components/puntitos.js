@@ -72,6 +72,10 @@ export class PuntitosGordos
         const gordos = Settings.puntitosGordos;
         const scale = Settings.getScaleGame();
 
+        // 512x512px = particula1.png
+        const scalePtoGordoX = (Settings.tileXY.x / 512) * scale;
+        const scalePtoGordoY = (Settings.tileXY.y / 512) * scale;
+
         this.puntitosgordos = this.relatedScene.physics.add.staticGroup();
 
         Object.keys(gordos).forEach(gordo =>
@@ -79,31 +83,18 @@ export class PuntitosGordos
             this.puntitosgordos.create(
                 gordos[gordo][1] * (Settings.tileXY.x * scale),
                 gordos[gordo][0] * (Settings.tileXY.y * scale),
-                'puntito'
-            ).setData('puntos', 50).setScale(1.6).refreshBody();
+                'particula1'
+            ).setData('puntos', 50).setScale(scalePtoGordoX, scalePtoGordoY).setBlendMode('ADD').refreshBody();
         });
 
         this.relatedScene.tweens.add(
         {
             targets: this.puntitosgordos.getChildren(),
-            scale: 0.8,
-            tint: new Phaser.Display.Color(255, Phaser.Math.Between(150, 255), 255).color,
+            scale: scalePtoGordoX * 2,
+            // tint: new Phaser.Display.Color(255, Phaser.Math.Between(150, 255), 255).color,
             yoyo: true,
             duration: 900,
             repeat: -1
-        });
-
-        this.puntitosgordos.children.iterate(gordo =>
-        {
-            particulas(
-                gordo.x, gordo.y,
-                'particula1',
-                50,
-                500,
-                {start: 0.05, end: 0.2},
-                0xffff55,
-                null, false, this.relatedScene
-            );
         });
 
         console.log(this.puntitosgordos);

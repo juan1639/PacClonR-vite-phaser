@@ -68,10 +68,11 @@ export class Fantasma
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
             fant.setData('id', index);
+
             fant.setCircle(
-                Math.floor(Settings.tileXY.y / 2),
-                Math.floor(Settings.tileXY.x / 12),
-                Math.floor(Settings.tileXY.y / 12)
+                Math.floor(Settings.tileXY.y / 2.6),
+                Math.floor(Settings.tileXY.x / 6),
+                Math.floor(Settings.tileXY.y / 6)
             );
 
             fant.setAngle(0).setScale(scale).setDepth(Settings.depth.fantasmas);
@@ -115,15 +116,16 @@ export class Fantasma
 
         this.fantasmas.children.iterate((fant, index) =>
         {
-
             if (Settings.isFantasmasScary())
             {
-                // fant.setBlendMode('ADD');
-                fant.setTintFill(new Phaser.Display.Color(9, 225, 255).color);
-
                 if (Settings.isFantasmasIntermitente())
                 {
                     fant.setTint(new Phaser.Display.Color(20, Phaser.Math.Between(60, 200), Phaser.Math.Between(125, 255)).color);
+                }
+                else
+                {
+                    // fant.setBlendMode('ADD');
+                    fant.setTintFill(new Phaser.Display.Color(9, 225, 255).color);
                 }
             }
 
@@ -245,7 +247,8 @@ export class Fantasma
         }
     }
 
-    duracion_scary()
+    // Not use (Settings.getFantasmasScaryDuracion ... instead)
+    static duracion_scary()
     {
         let duracion = Settings.getFantasmasScaryDuracion() - Settings.getNivel() * 900;
         console.log(duracion);
@@ -348,6 +351,8 @@ export class OjosFantasma
 
     create()
     {
+        const scale = Settings.getScaleGame();
+
         this.ojosfantasma = this.relatedScene.physics.add.group(
         {
             key: ['fantanim5', 'fantanim5', 'fantanim5', 'fantanim5'],
@@ -355,13 +360,13 @@ export class OjosFantasma
             setXY: {
                 x: (Settings.fantasmasIniXY.azul[0] - 12) * Settings.tileXY.x,
                 y: (Settings.fantasmasIniXY.azul[1] - 7) * Settings.tileXY.y,
-                stepX: Settings.tileXY.x
+                stepX: Settings.tileXY.x * scale
             }
         });
 
         this.ojosfantasma.children.iterate((ojos =>
         {
-            ojos.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false).setVisible(false);
+            ojos.setAngle(0).setScale(scale / 4).setFrame(0).setFlipX(false).setVisible(false);
         }));
 
         this.ojosfantasma.children.iterate((ojos, index) =>

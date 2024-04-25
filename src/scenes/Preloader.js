@@ -80,7 +80,7 @@ export class Preloader extends Scene
             this.load.spritesheet(`fantanim1${i}`, `./img/fantanim1${i}.png`, {frameWidth: 16, frameHeight: 16});
             this.load.spritesheet(`fantanim2${i}`, `./img/fantanim2${i}.png`, {frameWidth: 16, frameHeight: 16});
             this.load.spritesheet(`fantanim3${i}`, `./img/fantanim3${i}.png`, {frameWidth: 16, frameHeight: 16});
-            // this.load.spritesheet(`fantanim5${i}`, `./img/fantanim5${i}.png`, {frameWidth: 50, frameHeight: 50});
+            this.load.spritesheet(`fantanim5${i}`, `./img/fantanim5${i}.png`, {frameWidth: 50, frameHeight: 50});
 
             this.load.spritesheet(`fantasmon${i}`, `./img/fantasmon${i}.png`, {frameWidth: 640, frameHeight: 640});
         }

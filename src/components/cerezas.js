@@ -39,7 +39,13 @@ export class Cerezas
 
         this.cerezas.setData('intentoGiro', 'right');
         this.cerezas.setData('direccion', 'right');
-        this.cerezas.setCircle(Math.floor((Settings.tileXY.y * scale) / 3));
+
+        this.cerezas.setCircle(
+            Math.floor(Settings.tileXY.y / 3),
+            Math.floor(Settings.tileXY.x / 6),
+            Math.floor(Settings.tileXY.y / 6),
+        );
+
         this.cerezas.setAngle(-20).setScale(scale).setFrame(0).setFlipX(false);
         this.cerezas.setDepth(Settings.depth.item);
 

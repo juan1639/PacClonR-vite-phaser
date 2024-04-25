@@ -26,9 +26,9 @@ export class Jugador
         this.jugador = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
         this.jugador.setCircle(
-            Math.floor((Settings.tileXY.y * scale) / 2),
-            Math.floor(Settings.tileXY.x / 6),
-            Math.floor(Settings.tileXY.y / 6)
+            Math.floor((Settings.tileXY.y * scale) / 2.5),
+            Math.floor((Settings.tileXY.x * scale) / 6),
+            Math.floor((Settings.tileXY.y * scale) / 6)
         );
 
         this.jugador.setDepth(Settings.depth.jugador).setAngle(0);

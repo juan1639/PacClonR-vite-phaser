@@ -1,5 +1,4 @@
 import { Settings } from "../scenes/settings";
-import { matrixLevels } from "../scenes/matrixLevels";
 import { Textos } from "../components/textos";
 
 function colliderJugadorLaberinto(jugador, laberinto)
@@ -41,6 +40,42 @@ function colliderJugadorPuntitos(jugador, puntito)
   this.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
   puntito.disableBody(true, true);
   play_sonidos(this.sonido_waka, false, 0.9);
+}
+
+function colliderJugadorPuntitosGordos(jugador, puntitogordo)
+{
+  console.log(jugador, puntitogordo);
+
+  suma_puntos(puntitogordo, this);
+  this.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
+
+  puntitogordo.disableBody(true, true);
+  Settings.setFantasmasScary(true);
+
+  const nivel = Settings.getNivel();
+
+  this.time.delayedCall(Settings.getFantasmasScaryDuracion()[nivel], () =>
+  {
+    Settings.setFantasmasScary(false);
+    Settings.setFantasmasIntermitente(false);
+    this.fantasmas.clear_tint();
+    this.fantasmas.get().setBlendMode('ERASE');
+    this.sonido_fantasmasScary.pause();
+    Settings.setFantasmasBonusInc(0);
+  });
+
+  const timeIntermitente = Math.floor(Settings.getFantasmasScaryDuracion()[nivel] / 1.5);
+  this.time.delayedCall(timeIntermitente, () => Settings.setFantasmasIntermitente(true));
+
+  play_sonidos(this.sonido_eatingGhost, false, 0.9);
+
+  this.time.delayedCall(500, () => play_sonidos(this.sonido_fantasmasScary, true, 0.9));
+}
+
+function exceptoScary()
+{
+  if (Settings.isFantasmasScary()) return false;
+  return true;
 }
 
 function overlapJugadorFantasmas(jugador, fantasma)
@@ -90,7 +125,7 @@ function overlapJugadorFantasmas(jugador, fantasma)
             if (index === Settings.getVidas()) vida.setVisible(false);
           });
         }
-        
+
         this.fantasmas.get().children.iterate((fant, index) =>
         {
           if (Settings.isGameOver())
@@ -121,17 +156,17 @@ function overlapJugadorFantasmas(jugador, fantasma)
       Settings.setPausaComeFantasma(false);
     });
 
-    const puntos = Settings.getFantasmasBonusInc().puntos;
-    const color = Settings.getFantasmasBonusInc().color;
     const contador = Settings.getFantasmasBonusInc().contador;
+    const puntos = Settings.getFantasmasBonusInc().puntos[contador];
+    const color = Settings.getFantasmasBonusInc().color[contador];
     const duracion = Settings.getFantasmasBonusInc().duracion;
 
     this.txt_bonusfantasmas = new Textos(this,
     {
       x: jugador.x, y: jugador.y,
-      txt: puntos[contador].toString(),
+      txt: puntos,
       size: 40, color: '#ff7', style: 'bold',
-      stroke: color[contador], sizeStroke: 16,
+      stroke: color, sizeStroke: 16,
       shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
       bool1: false, bool2: true, origin: [0.5, 0.5],
       elastic: jugador.y - (Settings.tileXY.y * scale), dura: 2000
@@ -140,7 +175,11 @@ function overlapJugadorFantasmas(jugador, fantasma)
     this.txt_bonusfantasmas.create();
     this.txt_bonusfantasmas.get().setDepth(Settings.depth.textos).setAlpha(1);
 
-    const bonus = Settings.getPuntos() + puntos[contador];
+    this.tweens.add({
+      targets: this.txt_bonusfantasmas.get(), alpha: 0, duration: duracion
+    });
+
+    const bonus = Settings.getPuntos() + puntos;
     Settings.setPuntos(bonus);
     this.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
 
@@ -151,8 +190,47 @@ function overlapJugadorFantasmas(jugador, fantasma)
 
 function exceptoNotVisible(jugador, fantasma)
 {
-  if (!jugador.visible || Settings.isInvisible()) return false;
+  if (!fantasma.visible || Settings.isInvisible()) return false;
   return true;
+}
+
+function colliderJugadorFruta(jugador, cerezas)
+{
+  console.log(jugador, cerezas);
+
+  suma_puntos(cerezas, this);
+  this.marcadorPtos.update(Settings.getTxtScore(), Settings.getPuntos());
+  cerezas.disableBody(true, true);
+  play_sonidos(this.sonido_eatingCherry, false, 0.9);
+
+  this.txt_bonuscerezas = new Textos(this, {
+      x: jugador.x, y: jugador.y,
+      txt: cerezas.getData('puntos').toString(),
+      size: 40, color: '#ffa', style: 'bold',
+      stroke: '#f51', sizeStroke: 16,
+      shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
+      bool1: false, bool2: true, origin: [0.5, 0.5],
+      elastic: jugador.y - Settings.tileXY.y, dura: 2000
+  });
+    
+  this.txt_bonuscerezas.create();
+  this.txt_bonuscerezas.get().setDepth(Settings.depth.textos).setAlpha(1);
+
+  this.tweens.add({
+    targets: this.txt_bonuscerezas.get(),
+    alpha: 0,
+    duration: Settings.getFantasmasBonusInc().duracion
+  });
+
+  this.time.delayedCall(Settings.getIntervaloCerezas(), () =>
+  {
+    this.cerezas.get().enableBody(
+      true,
+      Settings.getCerezasIniXY()[0] * (Settings.tileXY.x * Settings.getScaleGame()),
+      Settings.getCerezasIniXY()[1] * (Settings.tileXY.y * Settings.getScaleGame()),
+      true, true
+    );
+  });
 }
 
 function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene)
@@ -185,31 +263,6 @@ function restar_vida()
   Settings.setVidas(actualizar);
 }
 
-function showBonus(scene, enemigo)
-{
-  Settings.showBonus = new Textos(scene, {
-    x: enemigo.x,
-    y: enemigo.y + 25,
-    txt: enemigo.getData('puntos').toString(),
-    size: 55, color: '#ffa', style: 'bold',
-    stroke: '#f21', sizeStroke: 16,
-    shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
-    bool1: false, bool2: true, origin: [0.5, 0.5],
-    elastic: false, dura: 0
-  });
-  
-  Settings.showBonus.create();
-  Settings.showBonus.get().setScale(1.2).setAlpha(1);
-
-  scene.tweens.add(
-  {
-    targets: Settings.showBonus.get(),
-    alpha: 0,
-    scale: 0,
-    duration: Settings.pausas.showBonus
-  });
-}
-
 function play_sonidos(id, loop, volumen)
 {
   id.volume = volumen;
@@ -220,8 +273,11 @@ function play_sonidos(id, loop, volumen)
 export {
   colliderJugadorLaberinto,
   colliderJugadorPuntitos,
+  colliderJugadorPuntitosGordos,
+  exceptoScary,
   overlapJugadorFantasmas,
   exceptoNotVisible,
+  colliderJugadorFruta,
   particulas,
   play_sonidos
 };

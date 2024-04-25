@@ -98,7 +98,15 @@ export class Settings
     static fantasmasScary =
     {
         activo: false,
-        duracion: 9000,
+        duracion: [
+            8500, 8500, 8000,
+            7000, 6000, 5000,
+            4500, 4000, 3500,
+            3250, 3000, 2750,
+            2500, 2250, 2000,
+            2000, 2000, 2000,
+            2000, 2000, 2000
+        ], 
         intermitente: false
     };
 
@@ -121,8 +129,14 @@ export class Settings
     static cerezasIniXY = [9, 12];
 
     static bonusCerezas = [
-        300, 300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000
+        300, 300, 500,
+        800, 1000, 2000,
+        3000, 5000, 5000,
+        5000, 5000, 5000,
+        5000, 5000, 5000
     ];
+
+    static intervaloCerezas = 15000;
 
     static cameraControles =
     {
@@ -279,6 +293,11 @@ export class Settings
         return Settings.bonusCerezas;
     }
 
+    static getIntervaloCerezas()
+    {
+        return Settings.intervaloCerezas;
+    }
+
     static getCameraControles()
     {
         return Settings.cameraControles;
@@ -374,11 +393,6 @@ export class Settings
     static setFantasmasIntermitente(bool)
     {
         Settings.fantasmasScary.intermitente = bool;
-    }
-
-    static setFantasmasScaryDuracion(tiempo)
-    {
-        Settings.fantasmasScary.duracion = tiempo;
     }
 
     static setFantasmasBonusInc(valor)

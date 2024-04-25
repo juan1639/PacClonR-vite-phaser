@@ -11,7 +11,7 @@ import { Settings } from './settings.js';
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
-import { Fantasma } from '../components/fantasma.js';
+import { Fantasma, OjosFantasma } from '../components/fantasma.js';
 import { Cerezas } from '../components/cerezas.js';
 import { GameOver } from '../components/game-over.js';
 
@@ -24,8 +24,11 @@ import {
 
 import {
   colliderJugadorPuntitos,
+  colliderJugadorPuntitosGordos,
+  exceptoScary,
   overlapJugadorFantasmas,
   exceptoNotVisible,
+  colliderJugadorFruta,
   play_sonidos
 } from '../functions/functions.js';
 
@@ -49,6 +52,7 @@ export class Game extends Scene
     this.jugador = new Jugador(this);
     this.jugadordies = new JugadorDies(this);
     this.fantasmas = new Fantasma(this);
+    this.ojos = new OjosFantasma(this);
     this.cerezas = new Cerezas(this);
     this.gameover = new GameOver(this);
 
@@ -83,6 +87,7 @@ export class Game extends Scene
     );
 
     this.fantasmas.create();
+    this.ojos.create();
     this.cerezas.create();
 
     this.jugadorshowvidas.create();
@@ -124,12 +129,13 @@ export class Game extends Scene
     {
       this.jugador.update();
       this.fantasmas.update();
+      this.ojos.update();
       this.cerezas.update();
     }
 
     if (this.puntitos.get().countActive() <= 0 && !Settings.isNivelSuperado())
     {
-      // if (this.sonido_fantasmasScary.isPlaying) this.sonido_fantasmasScary.pause();
+      if (this.sonido_fantasmasScary.isPlaying) this.sonido_fantasmasScary.pause();
 
       console.log('nivel superado');
       Settings.setNivelSuperado(true);
@@ -225,10 +231,10 @@ export class Game extends Scene
     this.physics.add.collider(this.jugador.get(), this.puntitos.get(), colliderJugadorPuntitos, null, this);
     
     // Collide Jugador-PuntitosGordos
-    // this.physics.add.collider(this.jugador.get(), this.puntitosgordos.get(), colliderJugadorPuntitosGordos, null, this);
+    this.physics.add.overlap(this.jugador.get(), this.puntitosgordos.get(), colliderJugadorPuntitosGordos, exceptoScary, this);
 
     // Collide Jugador-Frutas
-    // this.physics.add.collider(this.jugador.get(), this.fruta.get(), colliderJugadorFruta, null, this);
+    this.physics.add.overlap(this.jugador.get(), this.cerezas.get(), colliderJugadorFruta, null, this);
 
     // Overlap Jugador-Fantasmas
     this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), overlapJugadorFantasmas, exceptoNotVisible, this);
@@ -368,5 +374,7 @@ export class Game extends Scene
     this.sonido_waka = this.sound.add('pacman-waka');
     this.sonido_jugadorDies = this.sound.add('pacman-dies');
     this.sonido_eatingGhost = this.sound.add('pacman-eating-ghost');
+    this.sonido_eatingCherry = this.sound.add('pacman-eating-cherry');
+    this.sonido_fantasmasScary = this.sound.add('pacman-azules');
   }
 }
