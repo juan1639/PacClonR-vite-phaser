@@ -83,12 +83,14 @@ function overlapJugadorFantasmas(jugador, fantasma)
           this.gameover.create(this.jugador.get().x, this.jugador.get().y);
           // this.cameras.main.startFollow(this.gameover.get());
         }
-
-        this.jugadorshowvidas.get().children.iterate((vida, index) =>
+        else
         {
-          if (index === Settings.getVidas()) vida.setVisible(false);
-        });
-
+          this.jugadorshowvidas.get().children.iterate((vida, index) =>
+          {
+            if (index === Settings.getVidas()) vida.setVisible(false);
+          });
+        }
+        
         this.fantasmas.get().children.iterate((fant, index) =>
         {
           if (Settings.isGameOver())

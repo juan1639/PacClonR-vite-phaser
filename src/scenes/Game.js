@@ -13,7 +13,14 @@ import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { Fantasma } from '../components/fantasma.js';
 import { Cerezas } from '../components/cerezas.js';
-import { BotonFullScreen, BotonEsc, CrucetaControl } from '../components/boton-nuevapartida.js';
+import { GameOver } from '../components/game-over.js';
+
+import {
+  BotonNuevaPartida,
+  BotonFullScreen,
+  BotonEsc, 
+  CrucetaControl
+} from '../components/boton-nuevapartida.js';
 
 import {
   colliderJugadorPuntitos,
@@ -43,6 +50,7 @@ export class Game extends Scene
     this.jugadordies = new JugadorDies(this);
     this.fantasmas = new Fantasma(this);
     this.cerezas = new Cerezas(this);
+    this.gameover = new GameOver(this);
 
     this.instanciar_mobileControls();
     this.instanciar_marcadores();
@@ -55,7 +63,7 @@ export class Game extends Scene
 
   create()
   {
-    // 1.48 1.68 ajustar size fondo al scroll
+    // 1.35 1.90 ajustar size fondo al scroll
     const boundsXY = [Settings.screen.escBoundsX, Settings.screen.escBoundsY];
 
     this.add.image(0, 0, 'fondo-pacman').setScale(boundsXY[0], boundsXY[1]).setDepth(Settings.depth.fondo).setOrigin(0, 0);
@@ -70,8 +78,8 @@ export class Game extends Scene
     this.puntitosgordos.create();
 
     this.jugador.create(
-      Settings.pacman.iniX * Settings.tileXY.x * Settings.getScaleGame(),
-      Settings.pacman.iniY * Settings.tileXY.y * Settings.getScaleGame()
+      Settings.pacman.iniX * (Settings.tileXY.x * Settings.getScaleGame()),
+      Settings.pacman.iniY * (Settings.tileXY.y * Settings.getScaleGame())
     );
 
     this.fantasmas.create();
@@ -304,6 +312,14 @@ export class Game extends Scene
       left: Math.floor(ancho * 1.42), top: marcadoresPosY + 26, id: 'boton-fire-joystick',
       scX: 0.5, scY: 0.5, angle: 0, originX: 0.5, originY: 0.5, texto: 'Music', nextScene: ''
     }); */
+
+    this.botonrejugar = new BotonNuevaPartida(this, {
+      left: Math.floor(this.sys.game.config.width / 2),
+      top: Math.floor(this.sys.game.config.height / 1.3),
+      id: 'boton-nueva-partida',
+      scX: 0.6, scY: 0.5, angle: 1, originX: 0.5, originY: 0.5,
+      texto: ' Continue ', nextScene: 'PreGame'
+    });
   }
 
   instanciar_mobileControls()
