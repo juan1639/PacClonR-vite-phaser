@@ -2,7 +2,7 @@
 
 This is a clon-recreation of the classic arcade game Pacman of 1980
 
-https://juan1639.github.io/PacClon2-vite-phaser
+https://juan1639.github.io/PacClonR-vite-phaser
 
 <img src="miniatura-pacClon2.png" alt="game screenshot"/>
 
