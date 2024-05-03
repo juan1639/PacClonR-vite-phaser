@@ -68,7 +68,28 @@ export class GameOver
   {
     console.warn('iniciando check-records');
 
-    fetch('https://ejemplo-node-railway-production.up.railway.app/all')
+    async function fetchRecords()
+    {
+      try
+      {
+        const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
+
+        const data = response.json();
+
+        const {name, puntuacion} = data; 
+        console.log(name, puntuacion);
+        console.log(data);
+        console.log(JSON.stringify(data));
+      }
+      catch(error)
+      {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchRecords();
+
+    /* fetch('https://ejemplo-node-railway-production.up.railway.app/all')
       .then(response =>
       {
         console.log(response);
@@ -84,7 +105,7 @@ export class GameOver
       .catch(error => 
       {
         console.error('Error fetching data:', error);
-      });
+      }); */
 
     /* if (Settings.getPuntos() >= Settings.getRecord()) {
 
