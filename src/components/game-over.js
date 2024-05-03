@@ -74,7 +74,7 @@ export class GameOver
       {
         const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
 
-        const data = response.json();
+        const data = await response.json();
 
         const {name, puntuacion} = data; 
         console.log(name, puntuacion);
