@@ -66,7 +66,27 @@ export class GameOver
 
   check_newRecord()
   {
-    if (Settings.getPuntos() >= Settings.getRecord()) {
+    console.warn('iniciando check-records');
+
+    fetch('https://ejemplo-node-railway-production.up.railway.app/all')
+      .then(response =>
+      {
+        console.log(response);
+        return response.json();
+      })
+      .then(data =>
+      {
+        const {name, puntuacion} = data;
+        console.log(name, puntuacion);
+        console.log(data);
+        console.log(JSON.stringify(data));
+      })
+      .catch(error => 
+      {
+        console.error('Error fetching data:', error);
+      });
+
+    /* if (Settings.getPuntos() >= Settings.getRecord()) {
 
       Settings.setRecord(Settings.getPuntos());
 
@@ -93,7 +113,7 @@ export class GameOver
         repeat: -1,
         repeatDelay: 3000
       });
-    } 
+    } */ 
   }
 
   get()
