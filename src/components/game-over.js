@@ -72,7 +72,24 @@ export class GameOver
     {
       try
       {
-        const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/create');
+        const scoreToSend = Settings.getPuntos();
+        
+        const info =
+        {
+          name: 'IMI',
+          puntuacion: scoreToSend
+        };
+
+        const args =
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(info)
+        };
+
+        const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/create', args);
 
         const data = await response.json();
 
