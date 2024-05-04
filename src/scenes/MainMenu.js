@@ -60,7 +60,7 @@ export class MainMenu extends Scene
         // this.recordsTxtData = this.hacerFetchRecords();
 
         this.hacerFetchRecords = async () => fetchRecords()
-        .then(result => this.recordsTxtData = result)
+        .then(result => console.warn(result))
         .catch(error => console.warn(error));
 
         const aparecerBoton = 1800; // 1800
@@ -125,12 +125,12 @@ export class MainMenu extends Scene
                     this.txtRecords.get().setVisible(true);
 
                     // const recorreRecords = Array.from(this.recordsTxtData);
-                    console.warn(this.recordsTxtData);
+                    console.warn(this.hacerFetchRecords);
                     
                     let construirTxt = '    RECORDS\n';
                     let indice = 1;
 
-                    for (let i = 0; i < this.recordsTxtData.length; i+= 2)
+                    for (let i = 0; i < this.hacerFetchRecords.length; i+= 2)
                     {
                         const nombre = this.recordsTxtData[i];
                         const puntos = this.recordsTxtData[i + 1];
