@@ -56,12 +56,9 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.recordsTxtData = async () =>
-        {
-            fetchRecords();
-            console.log(this.recordsTxtData);
-        };
-        
+        this.hacerFetchRecords = async () => fetchRecords();
+        this.recordsTxtData = this.hacerFetchRecords();
+
         const aparecerBoton = 1800; // 1800
 
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
@@ -122,6 +119,8 @@ export class MainMenu extends Scene
                 else
                 {
                     this.txtRecords.get().setVisible(true);
+
+                    console.log(this.recordsTxtData);
 
                     let construirTxt = '    RECORDS\n';
 
