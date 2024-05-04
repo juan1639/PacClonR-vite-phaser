@@ -2,7 +2,7 @@ import { Scene } from 'phaser';
 import { JugadorPreGame } from '../components/jugador2.js';
 import { FantasmaPreGame } from '../components/fantasma.js';
 import { Textos } from '../components/textos.js';
-import { play_sonidos, particulas } from '../functions/functions.js';
+import { fetchRecords, play_sonidos, particulas } from '../functions/functions.js';
 import { BotonNuevaPartida } from '../components/boton-nuevapartida.js';
 import { Settings } from './settings.js';
 
@@ -38,6 +38,17 @@ export class MainMenu extends Scene
             elastic: Math.floor(this.sys.game.config.height / 4), dura: 3000
         });
 
+        this.txtRecords = new Textos(this, {
+            x: Math.floor(this.sys.game.config.width / 2),
+            y: 0,
+            txt: ' Tabla records ',
+            size: 20, color: '#ffa', style: 'bold',
+            stroke: '#5e1', sizeStroke: 7,
+            shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
+            bool1: false, bool2: true, origin: [0.5, 0.5],
+            elastic: Math.floor(this.sys.game.config.height / 2), dura: 3000
+        });
+
         this.fantasmaspregame = new FantasmaPreGame(this);
     }
 
@@ -45,6 +56,7 @@ export class MainMenu extends Scene
 
     create ()
     {
+        this.tablaRecords = fetchRecords();
         const aparecerBoton = 1800; // 1800
 
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
@@ -53,6 +65,10 @@ export class MainMenu extends Scene
         this.fantasmaspregame.create();
 
         this.txt.create();
+
+        this.txtRecords.create();
+        this.txtRecords.get().setVisible(false);
+        console.log(this.txtRecords.get().visible);
 
         const basedOn = this.add.text(
             Math.floor(this.sys.game.config.width / 3.4),
@@ -88,6 +104,49 @@ export class MainMenu extends Scene
         ]);
 
         timeline.play();
+
+        this.recordsTxtData = [];
+
+        this.tablaRecords.forEach((record, index) =>
+        {
+            const row = [];
+            const {name, puntuacion} = record;
+
+            row.push(name);
+            row.push(puntuacion.toString());
+            this.recordsTxtData.push(row);
+        });
+
+        const showRecordsClock = this.add.timeline([
+            {
+              at: 12000,
+              run: () =>
+              {
+                if (this.txtRecords.get().visible)
+                {
+                    this.txtRecords.get().setVisible(false);
+                }
+                else
+                {
+                    this.txtRecords.get().setVisible(true);
+
+                    let construirTxt = '    RECORDS\n';
+
+                    this.recordsTxtData.forEach((re, index) =>
+                    {
+                        const nombre = re[0];
+                        const puntos = re[1];
+                        const indice = index + 1;
+                        construirTxt += ` ${indice}. ${nombre}  ${puntos}\n`;
+                    });
+
+                    this.txtRecords.get().setText(construirTxt);
+                }
+              }
+            }
+        ]);
+
+        showRecordsClock.repeat(-1).play();
 
         play_sonidos(this.intermision, false, 0.6);
         

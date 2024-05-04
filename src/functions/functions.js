@@ -263,6 +263,25 @@ function restar_vida()
   Settings.setVidas(actualizar);
 }
 
+async function fetchRecords()
+{
+  try
+  {
+    const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
+
+    const data = await response.json();
+    
+    console.log(data);
+    console.log(JSON.stringify(data));
+
+    return data;
+  }
+  catch(error)
+  {
+    console.error('Error fetching data:', error);
+  }
+}
+
 function play_sonidos(id, loop, volumen)
 {
   id.volume = volumen;
@@ -279,5 +298,6 @@ export {
   exceptoNotVisible,
   colliderJugadorFruta,
   particulas,
+  fetchRecords,
   play_sonidos
 };
