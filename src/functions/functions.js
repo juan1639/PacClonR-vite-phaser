@@ -277,14 +277,12 @@ async function fetchRecords()
 
     let recordsTxtData = [];
 
-    dataJson.forEach((record, index) =>
+    data.forEach((record, index) =>
     {
-        const row = [];
-        const {name, puntuacion} = record;
+      const {name, puntuacion} = record;
 
-        row.push(name);
-        row.push(puntuacion.toString());
-        recordsTxtData.push(row);
+      recordsTxtData.push(name);
+      recordsTxtData.push(puntuacion.toString());
     });
 
     console.log(recordsTxtData);
