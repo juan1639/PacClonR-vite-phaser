@@ -124,14 +124,15 @@ export class MainMenu extends Scene
 
                     let construirTxt = '    RECORDS\n';
 
-                    this.recordsTxtData.forEach((re, index) =>
+                    let indice = 1;
+                    for (let re of this.recordsTxtData)
                     {
                         const nombre = re[0];
                         const puntos = re[1];
-                        const indice = index + 1;
                         construirTxt += ` ${indice}. ${nombre}  ${puntos}\n`;
-                    });
-
+                        indice ++;
+                    }
+                    
                     this.txtRecords.get().setText(construirTxt);
                 }
               }
