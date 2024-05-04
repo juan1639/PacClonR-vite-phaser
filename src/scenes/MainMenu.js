@@ -119,14 +119,14 @@ export class MainMenu extends Scene
                 else
                 {
                     this.txtRecords.get().setVisible(true);
-                    
-                    const recorreRecords = Array.from(this.recordsTxtData);
-                    console.log(recorreRecords);
+
+                    // const recorreRecords = Array.from(this.recordsTxtData);
+                    // console.log(recorreRecords);
                     
                     let construirTxt = '    RECORDS\n';
                     let indice = 1;
 
-                    for (let re of recorreRecords)
+                    for (let re of this.recordsTxtData)
                     {
                         const nombre = re[0];
                         const puntos = re[1];

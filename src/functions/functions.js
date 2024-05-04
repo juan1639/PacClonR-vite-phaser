@@ -270,13 +270,14 @@ async function fetchRecords()
     const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
 
     const data = await response.json();
+    const dataJson = JSON.stringify(data);
 
     console.log(data);
-    console.log(JSON.stringify(data));
+    console.log(dataJson);
 
     let recordsTxtData = [];
 
-    data.forEach((record, index) =>
+    dataJson.forEach((record, index) =>
     {
         const row = [];
         const {name, puntuacion} = record;
