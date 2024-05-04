@@ -56,7 +56,9 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.tablaRecords = fetchRecords();
+        this.recordsTxtData = fetchRecords();
+        console.log(this.recordsTxtData);
+        
         const aparecerBoton = 1800; // 1800
 
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
@@ -104,18 +106,6 @@ export class MainMenu extends Scene
         ]);
 
         timeline.play();
-
-        this.recordsTxtData = [];
-
-        this.tablaRecords.forEach((record, index) =>
-        {
-            const row = [];
-            const {name, puntuacion} = record;
-
-            row.push(name);
-            row.push(puntuacion.toString());
-            this.recordsTxtData.push(row);
-        });
 
         const showRecordsClock = this.add.timeline([
             {

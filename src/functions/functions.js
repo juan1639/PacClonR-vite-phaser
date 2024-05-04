@@ -270,11 +270,23 @@ async function fetchRecords()
     const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
 
     const data = await response.json();
-    
+
     console.log(data);
     console.log(JSON.stringify(data));
 
-    return data;
+    let recordsTxtData = [];
+
+    data.forEach((record, index) =>
+    {
+        const row = [];
+        const {name, puntuacion} = record;
+
+        row.push(name);
+        row.push(puntuacion.toString());
+        recordsTxtData.push(row);
+    });
+
+    return recordsTxtData;
   }
   catch(error)
   {
