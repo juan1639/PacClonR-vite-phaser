@@ -265,4 +265,9 @@ export class JugadorPreGame
 
         console.log(this.jugadorpregame);
     }
+
+    get()
+    {
+        return this.jugadorpregame;
+    }
 }

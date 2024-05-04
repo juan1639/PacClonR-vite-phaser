@@ -341,6 +341,11 @@ export class FantasmaPreGame
 
         console.log(this.fantasmaspregame);
     }
+
+    get()
+    {
+        return this.fantasmaspregame;
+    }
 }
 
 // ================================================================================

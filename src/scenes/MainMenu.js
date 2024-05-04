@@ -42,7 +42,7 @@ export class MainMenu extends Scene
             x: Math.floor(this.sys.game.config.width / 2),
             y: 0,
             txt: ' Tabla records ',
-            size: 24, color: '#ffa', style: 'bold',
+            size: 28, color: '#ffa', style: 'bold',
             stroke: '#5e1', sizeStroke: 7,
             shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
             bool1: false, bool2: true, origin: [0.5, 0.5],
@@ -67,12 +67,16 @@ export class MainMenu extends Scene
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
 
         this.jugador.create(-150, Math.floor(this.sys.game.config.height / 1.7));
+        this.jugador.get().setDepth(Settings.depth.fantasmon);
+
         this.fantasmaspregame.create();
+        this.fantasmaspregame.get().setDepth(Settings.depth.fantasmon);
 
         this.txt.create();
+        this.txt.get().setDepth(Settings.depth.textos);
 
         this.txtRecords.create();
-        this.txtRecords.get().setVisible(false);
+        this.txtRecords.get().setVisible(false).setDepth(Settings.depth.textos);
         console.log(this.txtRecords.get().visible);
 
         const basedOn = this.add.text(
@@ -112,7 +116,7 @@ export class MainMenu extends Scene
 
         const showRecordsClock = this.add.timeline([
             {
-              at: 15000,
+              at: 9500,
               run: () =>
               {
                 if (this.txtRecords.get().visible)
