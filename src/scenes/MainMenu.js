@@ -56,8 +56,11 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.recordsTxtData = fetchRecords();
-        console.log(this.recordsTxtData);
+        this.recordsTxtData = async () =>
+        {
+            fetchRecords();
+            console.log(this.recordsTxtData);
+        };
         
         const aparecerBoton = 1800; // 1800
 

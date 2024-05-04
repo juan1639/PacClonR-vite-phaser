@@ -286,6 +286,8 @@ async function fetchRecords()
         recordsTxtData.push(row);
     });
 
+    console.log(recordsTxtData);
+
     return recordsTxtData;
   }
   catch(error)
