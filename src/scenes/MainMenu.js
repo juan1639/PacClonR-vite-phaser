@@ -46,7 +46,7 @@ export class MainMenu extends Scene
             stroke: '#5e1', sizeStroke: 7,
             shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
             bool1: false, bool2: true, origin: [0.5, 0.5],
-            elastic: Math.floor(this.sys.game.config.height / 2), dura: 3000
+            elastic: Math.floor(this.sys.game.config.height / 1.65), dura: 3000
         });
 
         this.fantasmaspregame = new FantasmaPreGame(this);
@@ -129,7 +129,7 @@ export class MainMenu extends Scene
 
                     console.warn(this.recordsTxtData);
                     
-                    let construirTxt = '    RECORDS\n';
+                    let construirTxt = '     RECORDS\n \n';
                     let indice = 1;
 
                     for (let i = 0; i < this.recordsTxtData.length; i+= 2)
