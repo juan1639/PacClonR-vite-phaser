@@ -59,9 +59,9 @@ export class MainMenu extends Scene
         // this.hacerFetchRecords = async () => fetchRecords();
         // this.recordsTxtData = this.hacerFetchRecords();
 
-        const hacerFetchRecords = new Promise(fetchRecords());
-        hacerFetchRecords.then(result => this.recordsTxtData = result);
-        hacerFetchRecords.catch(error => console.warn(error));
+        this.hacerFetchRecords = async () => fetchRecords()
+        .then(result => this.recordsTxtData = result)
+        .catch(error => console.warn(error));
 
         const aparecerBoton = 1800; // 1800
 
