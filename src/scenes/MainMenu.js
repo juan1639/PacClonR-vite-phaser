@@ -42,7 +42,7 @@ export class MainMenu extends Scene
             x: Math.floor(this.sys.game.config.width / 2),
             y: 0,
             txt: ' Tabla records ',
-            size: 20, color: '#ffa', style: 'bold',
+            size: 24, color: '#ffa', style: 'bold',
             stroke: '#5e1', sizeStroke: 7,
             shadowOsx: 2, shadowOsy: 2, shadowColor: '#111',
             bool1: false, bool2: true, origin: [0.5, 0.5],
@@ -56,9 +56,6 @@ export class MainMenu extends Scene
 
     create()
     {
-        // this.hacerFetchRecords = async () => fetchRecords();
-        // this.recordsTxtData = this.hacerFetchRecords();
-
         this.hacerFetchRecords = async () => fetchRecords()
         .then(result => this.recordsTxtData = result)
         .catch(error => console.warn(error));
@@ -115,7 +112,7 @@ export class MainMenu extends Scene
 
         const showRecordsClock = this.add.timeline([
             {
-              at: 12000,
+              at: 15000,
               run: () =>
               {
                 if (this.txtRecords.get().visible)
@@ -126,7 +123,6 @@ export class MainMenu extends Scene
                 {
                     this.txtRecords.get().setVisible(true);
 
-                    // const recorreRecords = Array.from(this.recordsTxtData);
                     console.warn(this.recordsTxtData);
                     
                     let construirTxt = '    RECORDS\n';
@@ -137,7 +133,7 @@ export class MainMenu extends Scene
                         const nombre = this.recordsTxtData[i];
                         const puntos = this.recordsTxtData[i + 1];
                         console.log(nombre, puntos);
-                        construirTxt += ` ${indice}. ${nombre}  ${puntos}\n`;
+                        construirTxt += ` ${indice}.  ${nombre}   ${puntos}\n`;
                         indice ++;
                     }
 
