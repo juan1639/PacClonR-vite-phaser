@@ -56,9 +56,13 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.hacerFetchRecords = async () => fetchRecords();
-        this.recordsTxtData = this.hacerFetchRecords();
+        // this.hacerFetchRecords = async () => fetchRecords();
+        // this.recordsTxtData = this.hacerFetchRecords();
 
+        const hacerFetchRecords = new Promise(fetchRecords(resolve, reject));
+        hacerFetchRecords.then(result => this.recordsTxtData = result);
+        hacerFetchRecords.catch(error => console.warn(error));
+        
         const aparecerBoton = 1800; // 1800
 
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
