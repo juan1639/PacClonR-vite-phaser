@@ -63,6 +63,8 @@ export class MainMenu extends Scene
         .then(result => console.warn(result))
         .catch(error => console.warn(error));
 
+        this.hacerFetchRecords();
+
         const aparecerBoton = 1800; // 1800
 
         this.add.image(0, 0, 'fondo-pacman').setOrigin(0, 0).setDepth(Settings.depth.fondo);
