@@ -263,9 +263,32 @@ function restar_vida()
   Settings.setVidas(actualizar);
 }
 
-async function fetchRecords()
+async function fetchRecords(resolve, reject)
 {
-  try
+  const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
+
+  const data = await response.json();
+  const dataJson = JSON.stringify(data);
+
+  console.log(data);
+  console.log(dataJson);
+
+  let recordsTxtData = [];
+
+  data.forEach((record, index) =>
+  {
+    const {name, puntuacion} = record;
+
+    recordsTxtData.push(name);
+    recordsTxtData.push(puntuacion.toString());
+  });
+
+  console.log(recordsTxtData);
+
+  resolve(recordsTxtData);
+  reject(new Error('Error! reject fetching'));
+  
+  /* try
   {
     const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
 
@@ -292,7 +315,7 @@ async function fetchRecords()
   catch(error)
   {
     console.error('Error fetching data:', error);
-  }
+  } */
 }
 
 function play_sonidos(id, loop, volumen)
