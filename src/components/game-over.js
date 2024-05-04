@@ -68,16 +68,14 @@ export class GameOver
   {
     console.warn('iniciando check-records');
 
-    async function fetchRecords()
+    async function addScore()
     {
       try
       {
-        const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/all');
+        const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/create');
 
         const data = await response.json();
 
-        const {name, puntuacion} = data; 
-        console.log(name, puntuacion);
         console.log(data);
         console.log(JSON.stringify(data));
       }
@@ -87,7 +85,7 @@ export class GameOver
       }
     }
 
-    fetchRecords();
+    addScore();
 
     /* fetch('https://ejemplo-node-railway-production.up.railway.app/all')
       .then(response =>

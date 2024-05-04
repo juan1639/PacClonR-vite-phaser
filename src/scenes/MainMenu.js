@@ -116,7 +116,7 @@ export class MainMenu extends Scene
 
         const showRecordsClock = this.add.timeline([
             {
-              at: 9500,
+              at: 8000,
               run: () =>
               {
                 if (this.txtRecords.get().visible)
@@ -136,7 +136,10 @@ export class MainMenu extends Scene
                     {
                         const nombre = this.recordsTxtData[i];
                         const puntos = this.recordsTxtData[i + 1];
+
                         console.log(nombre, puntos);
+                        this.catch_record(indice, puntos);
+
                         construirTxt += ` ${indice}.  ${nombre}   ${puntos}\n`;
                         indice ++;
                     }
@@ -157,5 +160,10 @@ export class MainMenu extends Scene
     update()
     {
         // this.jugador.update();
+    }
+
+    catch_record(indice, puntos)
+    {
+        if (indice === 1) Settings.setRecord(puntos);
     }
 }
