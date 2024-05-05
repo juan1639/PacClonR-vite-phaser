@@ -73,7 +73,7 @@ export class GameOver
       try
       {
         const scoreToSend = Settings.getPuntos();
-        
+
         const info =
         {
           name: 'IMI',
@@ -88,6 +88,8 @@ export class GameOver
           },
           body: JSON.stringify(info)
         };
+
+        console.log(args.body);
 
         const response = await fetch('https://ejemplo-node-railway-production.up.railway.app/create', args);
 

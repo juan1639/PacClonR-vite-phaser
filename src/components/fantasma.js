@@ -81,9 +81,16 @@ export class Fantasma
 
         this.fantasmas.children.iterate((fant, index) =>
         {
-            for (let i = 0; i < 4; i ++) {
-
+            for (let i = 0; i < 4; i ++)
+            {
                 this.relatedScene.anims.remove(`anim${index}${i}`);
+            }
+        })
+
+        this.fantasmas.children.iterate((fant, index) =>
+        {
+            for (let i = 0; i < 4; i ++)
+            {
 
                 this.relatedScene.anims.create({
                     key: `anim${index}${i}`, 
