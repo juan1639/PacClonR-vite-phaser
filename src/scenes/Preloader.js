@@ -84,6 +84,8 @@ export class Preloader extends Scene
 
             this.load.spritesheet(`fantasmon${i}`, `./img/fantasmon${i}.png`, {frameWidth: 640, frameHeight: 640});
         }
+        
+        this.load.bitmapFont('font-fire', '/img/azo-fire.png', '/img/azo-fire.xml');
 
         //  Archivos de audio
         this.load.audio('gameover-retro', './audio/gameoveretro.ogg');

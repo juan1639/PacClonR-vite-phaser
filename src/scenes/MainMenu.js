@@ -76,7 +76,7 @@ export class MainMenu extends Scene
         this.txt.get().setDepth(Settings.depth.textos);
 
         this.txtRecords.create();
-        this.txtRecords.get().setVisible(false).setDepth(Settings.depth.textos);
+        this.txtRecords.get().setVisible(true).setDepth(Settings.depth.textos);
         console.log(this.txtRecords.get().visible);
 
         const basedOn = this.add.text(
@@ -116,7 +116,7 @@ export class MainMenu extends Scene
 
         const showRecordsClock = this.add.timeline([
             {
-              at: 8000,
+              at: 9000,
               run: () =>
               {
                 if (this.txtRecords.get().visible)

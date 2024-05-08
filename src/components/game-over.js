@@ -1,5 +1,6 @@
 import { Textos } from './textos.js';
 import { Settings } from '../scenes/settings.js';
+import { play_sonidos } from '../functions/functions.js';
 
 export class GameOver
 {
@@ -11,6 +12,8 @@ export class GameOver
   create(jugadorX, jugadorY)
   {
     this.sonidoGameOver = this.relatedScene.sound.add('gameover-retro');
+    this.sonido_numkey = this.relatedScene.sound.add('numkey');
+    this.sonido_key = this.relatedScene.sound.add('key');
 
     const duracionThisScene = 7000;
     const left = jugadorX;
@@ -59,12 +62,57 @@ export class GameOver
     this.sonidoGameOver.play();
     this.sonidoGameOver.volume = 0.5;
 
-    this.check_newRecord();
+    this.check_newRecord(left, top);
+    // this.send_score();
   }
 
   update() {}
 
-  check_newRecord()
+  check_newRecord(pacX, pacY)
+  {
+    const {id, arrayLetras, size, osX, osY, oriX, oriY, color, alpha} = Settings.fontSettings;
+    const letras = arrayLetras;
+    this.letraEvent = new Array(letras.length).fill(null);
+
+    const x = pacX - Math.floor(this.relatedScene.sys.game.config.width / 2.3);
+    let columna = 0;
+
+    for (let i = 0; i < letras.length; i ++)
+    {
+      const letra = letras[i];
+
+      let fila = this.select_filaLetra(i, letra, size);
+      if (this.select_columnaLetra(letra)) columna = 0;
+
+      this.letraEvent[i] = this.relatedScene.add.bitmapText(
+        (columna * (size * 1.25)) + x, pacY + fila, 'font-fire', letra, size
+      );
+
+      columna ++;
+
+      this.letraEvent[i].setDropShadow(osX, osY, color, alpha);
+      this.letraEvent[i].setInteractive().setOrigin(oriX, oriY).setDepth(Settings.depth.puntitos);
+
+      this.letraEvent[i].on('pointerover', () =>
+      {
+        this.letraEvent[i].setScale(1.2);
+        play_sonidos(this.sonido_numkey, false, 0.8);
+      });
+
+      this.letraEvent[i].on('pointerout', () =>
+      {
+        this.letraEvent[i].setScale(1);
+      });
+
+      this.letraEvent[i].on('pointerdown', () =>
+      {
+        console.log(letra);
+        play_sonidos(this.sonido_key, false, 0.7);
+      });
+    }
+  }
+
+  send_score()
   {
     console.warn('iniciando check-records');
 
@@ -152,6 +200,32 @@ export class GameOver
         repeatDelay: 3000
       });
     } */ 
+  }
+
+  select_filaLetra(i, letra, size)
+  {
+    let fila = 70;
+
+    if (i > 12 && i < 26)
+    {
+      fila += size * 1.25;
+    }
+    else if (i >= 26)
+    {
+      fila += size * 2 * 1.25;
+    }
+
+    return fila;
+  }
+
+  select_columnaLetra(letra)
+  {
+    if (letra === 'N' || letra === '0')
+    {
+      return true;
+    }
+
+    return false;
   }
 
   get()

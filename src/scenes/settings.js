@@ -42,6 +42,19 @@ export class Settings
 
     static txtScore = 'Score: ';
 
+    static fontSettings =
+    {
+        id: 'font-fire',
+        arrayLetras: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-@',
+        size: 48,
+        osX: 4,
+        osY: 4,
+        oriX: 0.5,
+        oriY: 0.5,
+        color: 0xffff00,
+        alpha: 0.3
+    };
+
     static pausa =
     {
         inicial: {
