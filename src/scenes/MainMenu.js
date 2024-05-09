@@ -57,7 +57,28 @@ export class MainMenu extends Scene
     create()
     {
         this.hacerFetchRecords = async () => fetchRecords()
-        .then(result => this.recordsTxtData = result)
+        .then(result =>
+        {
+            this.recordsTxtData = result;
+            console.warn(this.recordsTxtData);
+                    
+            let construirTxt = '     RECORDS\n \n';
+            let indice = 1;
+
+            for (let i = 0; i < this.recordsTxtData.length; i+= 2)
+            {
+                const nombre = this.recordsTxtData[i];
+                const puntos = this.recordsTxtData[i + 1];
+
+                console.log(nombre, puntos);
+                this.catch_record(indice, puntos);
+
+                construirTxt += ` ${indice}.  ${nombre}   ${puntos}\n`;
+                indice ++;
+            }
+
+            this.txtRecords.get().setText(construirTxt);
+        })
         .catch(error => console.warn(error));
 
         this.hacerFetchRecords();
@@ -116,7 +137,7 @@ export class MainMenu extends Scene
 
         const showRecordsClock = this.add.timeline([
             {
-              at: 9000,
+              at: 7000,
               run: () =>
               {
                 if (this.txtRecords.get().visible)
@@ -126,25 +147,6 @@ export class MainMenu extends Scene
                 else
                 {
                     this.txtRecords.get().setVisible(true);
-
-                    console.warn(this.recordsTxtData);
-                    
-                    let construirTxt = '     RECORDS\n \n';
-                    let indice = 1;
-
-                    for (let i = 0; i < this.recordsTxtData.length; i+= 2)
-                    {
-                        const nombre = this.recordsTxtData[i];
-                        const puntos = this.recordsTxtData[i + 1];
-
-                        console.log(nombre, puntos);
-                        this.catch_record(indice, puntos);
-
-                        construirTxt += ` ${indice}.  ${nombre}   ${puntos}\n`;
-                        indice ++;
-                    }
-
-                    this.txtRecords.get().setText(construirTxt);
                 }
               }
             }
