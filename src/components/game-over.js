@@ -1,6 +1,6 @@
 import { Textos } from './textos.js';
 import { Settings } from '../scenes/settings.js';
-import { play_sonidos } from '../functions/functions.js';
+import { particulas, play_sonidos } from '../functions/functions.js';
 
 export class GameOver
 {
@@ -31,7 +31,7 @@ export class GameOver
     });
 
     this.txt.create();
-    this.txt.get().setAlpha(0);
+    this.txt.get().setAlpha(0).setDepth(Settings.depth.textos + 20);
 
     this.relatedScene.tweens.add({
       targets: this.txt.get(),
@@ -39,6 +39,20 @@ export class GameOver
       duration: Math.floor(duracionThisScene / 2),
       // repeat: 1
     });
+
+    this.txtCongrats = new Textos(this.relatedScene, {
+      x: left,
+      y: top + 200,
+      txt: ' Congratulations! Put your Initials!',
+      size: 40, color: '#dd9', style: 'bold',
+      stroke: '#1e1', sizeStroke: 6,
+      shadowOsx: 2, shadowOsy: 2, shadowColor: '#111111',
+      bool1: false, bool2: true, origin: [0.5, 0.5],
+      elastic: Math.floor(top * 0.23), dura: 3500
+    });
+
+    this.txtCongrats.create();
+    this.txtCongrats.get().setAlpha(0).setDepth(Settings.depth.textos + 20);
 
     const timeline = this.relatedScene.add.timeline([
       {
@@ -73,6 +87,10 @@ export class GameOver
     const {id, arrayLetras, size, osX, osY, oriX, oriY, color, alpha} = Settings.fontSettings;
     const letras = arrayLetras;
     this.letraEvent = new Array(letras.length).fill(null);
+    
+    this.nameToSend = '';
+    this.makeTxtNameToSend(pacX, pacY, size, osX, osY, oriX, oriY, color, alpha);
+    this.bandera_send = false;
 
     const x = pacX - Math.floor(this.relatedScene.sys.game.config.width / 2.3);
     let columna = 0;
@@ -91,7 +109,7 @@ export class GameOver
       columna ++;
 
       this.letraEvent[i].setDropShadow(osX, osY, color, alpha);
-      this.letraEvent[i].setInteractive().setOrigin(oriX, oriY).setDepth(Settings.depth.puntitos);
+      this.letraEvent[i].setInteractive().setOrigin(oriX, oriY).setDepth(Settings.depth.textos + 20);
 
       this.letraEvent[i].on('pointerover', () =>
       {
@@ -106,7 +124,22 @@ export class GameOver
 
       this.letraEvent[i].on('pointerdown', () =>
       {
+        if (this.bandera_send) return;
+
         console.log(letra);
+        this.nameToSend += letra;
+
+        if (this.nameToSend.length <= 3)
+        {
+          this.makeInitials.setText(this.nameToSend);
+        }
+
+        if (this.nameToSend.length === 3)
+        {
+          this.bandera_send = true;
+          this.send_score();
+        }
+
         play_sonidos(this.sonido_key, false, 0.7);
       });
     }
@@ -226,6 +259,28 @@ export class GameOver
     }
 
     return false;
+  }
+
+  makeTxtNameToSend(pacX, pacY, size, osX, osY, oriX, oriY, color, alpha)
+  {
+    particulas(
+      pacX, pacY,
+      'particula1',
+      {min: 60, max: 120},
+      {min: 2500, max: 3000},
+      {start: 0.2, end: 0},
+      0xffcc11,
+      null, false, this.relatedScene
+    );
+
+    this.txtCongrats.get().setAlpha(1);
+
+    this.makeInitials = this.relatedScene.add.bitmapText(
+      pacX, Math.floor(pacY * 0.6), 'font-fire', '', size * 3
+    );
+
+    this.makeInitials.setDropShadow(osX, osY, color, alpha);
+    this.makeInitials.setOrigin(oriX, oriY).setDepth(Settings.depth.textos + 20);
   }
 
   get()

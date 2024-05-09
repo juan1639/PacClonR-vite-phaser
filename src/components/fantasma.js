@@ -132,7 +132,7 @@ export class Fantasma
                 else
                 {
                     // fant.setBlendMode('ADD');
-                    fant.setTintFill(new Phaser.Display.Color(9, 225, 255).color);
+                    fant.setTintFill(new Phaser.Display.Color(9, 105, 205).color);
                 }
             }
 

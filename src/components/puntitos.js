@@ -97,6 +97,15 @@ export class PuntitosGordos
             repeat: -1
         });
 
+        this.relatedScene.tweens.add(
+        {
+            targets: this.puntitosgordos.getChildren(),
+            angle: 359,
+            // tint: new Phaser.Display.Color(255, Phaser.Math.Between(150, 255), 255).color,
+            duration: 900,
+            repeat: -1
+        });
+
         console.log(this.puntitosgordos);
     }
 
