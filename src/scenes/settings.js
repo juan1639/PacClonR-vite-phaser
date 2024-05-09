@@ -36,7 +36,8 @@ export class Settings
 
     static puntos = 0;
     static nivel = 1;
-    static hi = 12000;
+    static hi = 7000;
+    static top = [7000, 5000, 3000, 2000, 1000];
     static vidas = 3;
     static gameOver = false;
 
@@ -261,6 +262,11 @@ export class Settings
         return Settings.hi;
     }
 
+    static getTop()
+    {
+        return Settings.top;
+    }
+
     static getVidas()
     {
         return Settings.vidas;
@@ -391,6 +397,11 @@ export class Settings
     static setRecord(hiScore)
     {
         Settings.hi = hiScore;
+    }
+
+    static setTop(top5)
+    {
+        Settings.top = top5;
     }
 
     static setVidas(lifes)

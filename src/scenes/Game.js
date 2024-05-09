@@ -324,7 +324,7 @@ export class Game extends Scene
       top: Math.floor(this.sys.game.config.height / 1.3),
       id: 'boton-nueva-partida',
       scX: 0.6, scY: 0.5, angle: 1, originX: 0.5, originY: 0.5,
-      texto: ' Continue ', nextScene: 'PreGame'
+      texto: ' Continue ', nextScene: 'MainMenu'
     });
   }
 

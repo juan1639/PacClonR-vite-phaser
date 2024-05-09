@@ -76,14 +76,18 @@ export class GameOver
     this.sonidoGameOver.play();
     this.sonidoGameOver.volume = 0.5;
 
-    this.check_newRecord(left, top);
-    // this.send_score();
+    this.nameToSend = 'IMI';
+    this.putInitialsToSend(left, top);
+
+    if (!this.checkNewRecordOrTop()) this.send_score();
   }
 
   update() {}
 
-  check_newRecord(pacX, pacY)
+  putInitialsToSend(pacX, pacY)
   {
+    if (!this.checkNewRecordOrTop()) return;
+
     const {id, arrayLetras, size, osX, osY, oriX, oriY, color, alpha} = Settings.fontSettings;
     const letras = arrayLetras;
     this.letraEvent = new Array(letras.length).fill(null);
@@ -157,7 +161,7 @@ export class GameOver
 
         const info =
         {
-          name: 'IMI',
+          name: this.nameToSend,
           puntuacion: scoreToSend
         };
 
@@ -281,6 +285,15 @@ export class GameOver
 
     this.makeInitials.setDropShadow(osX, osY, color, alpha);
     this.makeInitials.setOrigin(oriX, oriY).setDepth(Settings.depth.textos + 20);
+  }
+
+  checkNewRecordOrTop()
+  {
+    const lenghtOfTopToEntry = 5;
+    console.log(Settings.getTop()[lenghtOfTopToEntry - 1]);
+
+    if (Settings.getPuntos() >= Settings.getTop()[lenghtOfTopToEntry - 1]) return true;
+    return false;
   }
 
   get()

@@ -61,6 +61,8 @@ export class MainMenu extends Scene
         {
             this.recordsTxtData = result;
             console.warn(this.recordsTxtData);
+
+            const top5 = [];
                     
             let construirTxt = '     RECORDS\n \n';
             let indice = 1;
@@ -73,11 +75,14 @@ export class MainMenu extends Scene
                 console.log(nombre, puntos);
                 this.catch_record(indice, puntos);
 
+                top5.push(puntos);
+
                 construirTxt += ` ${indice}.  ${nombre}   ${puntos}\n`;
                 indice ++;
             }
 
             this.txtRecords.get().setText(construirTxt);
+            Settings.setTop(top5);
         })
         .catch(error => console.warn(error));
 
