@@ -197,7 +197,9 @@ export class Settings
     static RECORDS =
     {
         URL_GET: process.env.URL_GET,
-        URL_POST: process.env.URL_POST
+        URL_POST: process.env.URL_POST,
+        URL_G: 'https://ejemplo-node-railway-production.up.railway.app/all',
+        URL_P: 'https://ejemplo-node-railway-production.up.railway.app/create',
     };
 
     // ---------------------------------------------------
