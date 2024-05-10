@@ -175,7 +175,7 @@ export class GameOver
 
         console.log(args.body);
 
-        const response = await fetch(process.env.URL_POST, args);
+        const response = await fetch(Settings.RECORDS.URL_POST, args);
 
         const data = await response.json();
 

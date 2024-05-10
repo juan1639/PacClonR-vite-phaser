@@ -194,6 +194,12 @@ export class Settings
         key: null
     };
 
+    static RECORDS =
+    {
+        URL_GET: process.env.URL_GET,
+        URL_POST: process.env.URL_POST
+    };
+
     // ---------------------------------------------------
     //  Getters
     // ---------------------------------------------------

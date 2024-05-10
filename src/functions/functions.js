@@ -267,7 +267,7 @@ async function fetchRecords()
 {
   try
   {
-    const response = await fetch(process.env.URL_GET);
+    const response = await fetch(Settings.RECORDS.URL_GET);
 
     const data = await response.json();
     const dataJson = JSON.stringify(data);
